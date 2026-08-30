@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firearms & Armoury | Super Sparks Special Effects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #eaeaea;
+            overflow-x: hidden;
+            background: #000;
+        }
+		 /* ===== NAV BANNER ===== */
+        .nav-banner {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1a1a1a; padding: 0 5vw;
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo {
+            font-family: 'Black Ops One', cursive; font-size: 1.3rem; color: #fff;
+            text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em;
+            text-shadow: 0 0 10px #ff4400, 0 0 20px #ff2200; white-space: nowrap;
+        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+        .nav-link {
+            font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #888; text-decoration: none;
+            padding: 8px 14px; border-radius: 6px; transition: all 0.3s ease; white-space: nowrap;
+        }
+        .nav-link:hover { color: #ffaa33; background: rgba(255,102,0,0.08); }
+        .nav-link.active { color: #ffaa33; background: rgba(255,102,0,0.12); border: 1px solid rgba(255,102,0,0.3); }
+
+        /* ===== HERO SECTION ===== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            background: #000;
+            margin-top: 64px;
+        }
+        #gunfire-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+            background: #000;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.5) 100%);
+            z-index: 2; pointer-events: none;
+        }
+        .hero-content { position: relative; z-index: 10; }
+        .main-title {
+            font-family: 'Black Ops One', cursive;
+            font-size: clamp(3rem, 11vw, 8rem);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 0.9;
+            color: #fff;
+            text-shadow: 0 0 20px #ff4400, 0 0 40px #ff3300, 0 0 80px #ff2200, 0 0 120px #cc0000, 0 0 200px #990000, 0 0 300px #660000;
+        }
+        .sub-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            color: #ffaa33;
+            margin-top: 0.8rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #ff6600, 0 0 30px #ff4400, 0 0 60px #ff2200;
+        }
+        .divider {
+            width: 250px; height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6600, #ffaa33, #ff6600, transparent);
+            margin: 2rem auto;
+            box-shadow: 0 0 20px #ff6600, 0 0 40px #ff3300;
+        }
+        .cta-button {
+            margin-top: 3rem;
+            padding: 1.2rem 4rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff6600;
+            color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3), inset 0 0 20px rgba(255, 102, 0, 0.1);
+        }
+        .cta-button:hover {
+            background: rgba(255, 102, 0, 0.2);
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.6), inset 0 0 30px rgba(255, 102, 0, 0.2);
+            color: #ffdd88;
+            border-color: #ffaa33;
+            transform: translateY(-2px);
+        }
+        .scroll-indicator {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 10; animation: bounce 2s infinite; opacity: 0.7;
+        }
+        .scroll-indicator span {
+            display: block; width: 30px; height: 50px;
+            border: 2px solid #ff6600; border-radius: 20px; position: relative;
+        }
+        .scroll-indicator span::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 6px; background: #ff6600; border-radius: 50%;
+            animation: scroll-dot 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        @keyframes scroll-dot { 0% { opacity: 1; top: 8px; } 100% { opacity: 0; top: 30px; } }
+
+        /* ===== PRODUCTS SECTION ===== */
+        #products {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background: #050505;
+            padding: 90px 5vw 60px;
+        }
+
+        .section-heading { text-align: center; margin-bottom: 40px; }
+        .section-heading h2 {
+            font-family: 'Black Ops One', cursive;
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #fff;
+            text-shadow: 0 0 15px #ff4400, 0 0 40px #ff2200;
+        }
+        .section-heading p {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.3em;
+            font-size: 0.75rem;
+            color: #ffaa33;
+            margin-top: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Category filter tabs */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .filter-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #999;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #333;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover { border-color: #ff6600; color: #ffaa33; }
+        .filter-btn.active {
+            background: rgba(255, 102, 0, 0.15);
+            border-color: #ff6600;
+            color: #ffaa33;
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.35);
+        }
+        .filter-count {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 45px;
+        }
+
+        .category-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #fff;
+            border-left: 3px solid #ff6600;
+            padding-left: 16px;
+            margin-bottom: 28px;
+            text-shadow: 0 0 10px rgba(255,102,0,0.4);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: linear-gradient(180deg, #0d0d0d, #050505);
+            border: 1px solid #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            position: relative;
+        }
+        .product-card:hover {
+            border-color: #ff6600;
+            transform: translateY(-6px);
+            box-shadow: 0 10px 35px rgba(255, 102, 0, 0.25);
+        }
+        .product-img-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+        }
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 14px;
+            transition: transform 0.4s ease;
+            filter: brightness(0.95) contrast(1.05);
+        }
+        .product-card:hover .product-img-wrap img { transform: scale(1.08); }
+
+        .product-info { padding: 14px 16px 18px; border-top: 1px solid #1a1a1a; }
+        .product-code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: #ff6600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .product-name { font-size: 0.9rem; font-weight: 500; color: #ddd; line-height: 1.35; }
+
+        /* Pagination like the original site */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 70px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #2a2a2a;
+            color: #999;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .page-btn:hover { border-color: #ff6600; color: #ffaa33; }
+        .page-btn.active {
+            background: rgba(255, 102, 0, 0.18);
+            border-color: #ff6600;
+            color: #ffaa33;
+            box-shadow: 0 0 12px rgba(255, 102, 0, 0.3);
+        }
+        .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-btn:disabled:hover { border-color: #2a2a2a; color: #999; }
+
+        /* ===== FOOTER ===== */
+        footer { background: #000000; padding: 40px 20px; text-align: center; border-top: 1px solid #222; }
+        footer p { color: #444; font-size: 0.8rem; letter-spacing: 0.15em; font-weight: 500; text-transform: uppercase; }
+
+        /* Ember effect */
+        .ember {
+            position: fixed; width: 3px; height: 3px;
+            background: radial-gradient(circle, #ffaa33, #ff6600);
+            border-radius: 50%; pointer-events: none;
+            animation: ember-float 3s ease-out forwards;
+            box-shadow: 0 0 8px #ff6600; z-index: 100;
+        }
+        @keyframes ember-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--ex), var(--ey)) scale(0); opacity: 0; }
+        }
+
+        @media (max-width: 900px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        }
+        @media (max-width: 480px) {
+            .product-grid { grid-template-columns: repeat(1, 1fr); gap: 14px; }
+            #products { padding: 70px 4vw 40px; }
+        }
+        @media (max-width: 500px) {
+            .nav-inner { height: auto; padding: 12px 0; flex-direction: column; gap: 10px; }
+            #hero { margin-top: 100px; }
+            .nav-links { gap: 4px; }
+            .nav-link { padding: 6px 10px; font-size: 0.6rem; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+   <!-- ===== NAV BANNER ===== -->
+    <nav class="nav-banner">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Salim's Rahman's Super Sparks</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="aromory1.html" class="nav-link active">Armory</a>
+                <a href="movie.html" class="nav-link">Movies</a>
+                <a href="fireworks.html" class="nav-link">Fireworks</a>
+                <a href="SFX.html" class="nav-link">SFX</a>
+                <a href="contactus.html" class="nav-link">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="hero">
+        <canvas id="gunfire-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="main-title">FIREARMS & ARMOURY</h1>
+            <p class="sub-title">Professional Licensed Movie Firearms Supplier</p>
+            <div class="divider"></div>
+            <button class="cta-button" onclick="scrollToProducts(event)">View Collection</button>
+        </div>
+        <div class="scroll-indicator"><span></span></div>
+    </section>
+
+    <!-- ===== PRODUCTS SECTION ===== -->
+    <section id="products">
+        <div class="section-heading">
+            <h2>The Collection</h2>
+            <p>Movie & TV Prop Firearms</p>
+        </div>
+
+        <div class="filter-bar" id="filterBar"></div>
+        <div class="filter-count" id="filterCount"></div>
+
+        <h3 class="category-title" id="categoryTitle"></h3>
+        <div class="product-grid" id="productGrid"></div>
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>© 2026 SUPER SPARKS SPECIAL EFFECTS (M) SDN BHD. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        // ===== GUNFIRE CANVAS ANIMATION =====
+        const gunCanvas = document.getElementById('gunfire-canvas');
+        const gunCtx = gunCanvas.getContext('2d');
+        let gunW, gunH;
+        let muzzleFlashes = [];
+        let bulletTrails = [];
+        let casings = [];
+
+        function resizeGun() {
+            gunW = gunCanvas.width = window.innerWidth;
+            gunH = gunCanvas.height = window.innerHeight;
+        }
+        resizeGun();
+        window.addEventListener('resize', resizeGun);
+
+        class MuzzleFlash {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.life = 1;
+                this.decay = 0.08 + Math.random() * 0.05;
+                this.size = 80 + Math.random() * 120;
+                this.hue = 30 + Math.random() * 30;
+                this.sparks = [];
+                for (let i = 0; i < 15; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 15 + 5;
+                    this.sparks.push({
+                        x: x, y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 1,
+                        size: Math.random() * 4 + 2
+                    });
+                }
+            }
+            update() {
+                this.life -= this.decay;
+                this.sparks.forEach(s => {
+                    s.x += s.vx; s.y += s.vy;
+                    s.vx *= 0.95; s.vy *= 0.95;
+                    s.life -= 0.04;
+                });
+            }
+            draw() {
+                // Main flash
+                const grad = gunCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                grad.addColorStop(0, `hsla(${this.hue}, 100%, 80%, ${this.life * 0.9})`);
+                grad.addColorStop(0.3, `hsla(${this.hue}, 100%, 60%, ${this.life * 0.6})`);
+                grad.addColorStop(0.6, `hsla(${this.hue}, 100%, 40%, ${this.life * 0.3})`);
+                grad.addColorStop(1, 'transparent');
+                gunCtx.fillStyle = grad;
+                gunCtx.beginPath();
+                gunCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                gunCtx.fill();
+
+                // Core bright spot
+                gunCtx.fillStyle = `hsla(${this.hue + 20}, 100%, 95%, ${this.life})`;
+                gunCtx.beginPath();
+                gunCtx.arc(this.x, this.y, this.size * 0.15, 0, Math.PI * 2);
+                gunCtx.fill();
+
+                // Sparks
+                this.sparks.forEach(s => {
+                    if (s.life <= 0) return;
+                    gunCtx.save();
+                    gunCtx.globalAlpha = s.life;
+                    gunCtx.fillStyle = '#ffcc00';
+                    gunCtx.shadowColor = '#ff6600';
+                    gunCtx.shadowBlur = 15;
+                    gunCtx.beginPath();
+                    gunCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    gunCtx.fill();
+                    // Trail
+                    gunCtx.strokeStyle = `hsla(${this.hue}, 100%, 60%, ${s.life * 0.5})`;
+                    gunCtx.lineWidth = s.size * 0.5;
+                    gunCtx.beginPath();
+                    gunCtx.moveTo(s.x, s.y);
+                    gunCtx.lineTo(s.x - s.vx * 3, s.y - s.vy * 3);
+                    gunCtx.stroke();
+                    gunCtx.restore();
+                });
+            }
+        }
+
+        class BulletTrail {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.vx = 25 + Math.random() * 15;
+                this.vy = (Math.random() - 0.5) * 3;
+                this.life = 1;
+                this.trail = [];
+            }
+            update() {
+                this.trail.push({x: this.x, y: this.y, alpha: 1});
+                if (this.trail.length > 20) this.trail.shift();
+                this.x += this.vx; this.y += this.vy;
+                this.life -= 0.02;
+                this.trail.forEach(t => t.alpha *= 0.9);
+            }
+            draw() {
+                if (this.life <= 0) return;
+                // Bullet head
+                gunCtx.save();
+                gunCtx.globalAlpha = this.life;
+                gunCtx.fillStyle = '#fff';
+                gunCtx.shadowColor = '#ffaa33';
+                gunCtx.shadowBlur = 20;
+                gunCtx.beginPath();
+                gunCtx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                gunCtx.fill();
+                // Trail
+                gunCtx.beginPath();
+                gunCtx.moveTo(this.x, this.y);
+                for (let i = this.trail.length - 1; i >= 0; i--) {
+                    const t = this.trail[i];
+                    gunCtx.lineTo(t.x, t.y);
+                }
+                gunCtx.strokeStyle = `rgba(255, 180, 50, ${this.life * 0.6})`;
+                gunCtx.lineWidth = 2;
+                gunCtx.stroke();
+                gunCtx.restore();
+            }
+        }
+
+        function createGunshot() {
+            const x = gunW * 0.3 + Math.random() * gunW * 0.4;
+            const y = gunH * 0.3 + Math.random() * gunH * 0.4;
+            muzzleFlashes.push(new MuzzleFlash(x, y));
+            bulletTrails.push(new BulletTrail(x + 20, y));
+        }
+
+        // Auto gunfire
+        setInterval(() => {
+            if (Math.random() > 0.3) createGunshot();
+        }, 200);
+
+        // Click to fire
+        gunCanvas.addEventListener('click', (e) => {
+            muzzleFlashes.push(new MuzzleFlash(e.clientX, e.clientY));
+            bulletTrails.push(new BulletTrail(e.clientX + 20, e.clientY));
+        });
+
+        function animateGunfire() {
+            gunCtx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+            gunCtx.fillRect(0, 0, gunW, gunH);
+
+            muzzleFlashes = muzzleFlashes.filter(mf => {
+                mf.update(); mf.draw();
+                return mf.life > 0;
+            });
+
+            bulletTrails = bulletTrails.filter(bt => {
+                bt.update(); bt.draw();
+                return bt.life > 0 && bt.x < gunW + 100;
+            });
+
+            requestAnimationFrame(animateGunfire);
+        }
+        animateGunfire();
+
+        // ===== PRODUCT DATA =====
+const categories = [
+  { key: "pistol", title: "Auto Pistol", items: [
+    { code: "P001", name: "Beretta 92 FS Compact 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P001.JPG" },
+    { code: "P002", name: "Beretta 92 G Elite II 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P002.jpg" },
+    { code: "P003", name: "Beretta 92 FS 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P003.JPG" },
+    { code: "P004", name: "Beretta 92 FS 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P004.jpg" },
+    { code: "P005", name: "Beretta 92 FS 9 mm Pistol (Compensator)", img: "https://www.hkmoviegun.com.hk/products/420x420/P005.JPG" },
+    { code: "P006", name: "Beretta 92 FS 9 mm Pistol (Inox)", img: "https://www.hkmoviegun.com.hk/products/420x420/P006.JPG" },
+    { code: "P007", name: "Beretta 92 FS 9 mm Pistol (with Compensator)", img: "https://www.hkmoviegun.com.hk/products/420x420/P007.JPG" },
+    { code: "P008", name: "Beretta 92 FS 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P008.JPG" },
+    { code: "P009", name: "Beretta 92 FS 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P009.jpg" },
+    { code: "P010", name: "Browning HP Practical 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P010.jpg" },
+    { code: "P011", name: "Browning HP 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P011.jpg" },
+    { code: "P012", name: "Browning HP 1935 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P012.jpg" },
+    { code: "P013", name: "Browning HP MK-III 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P013.jpg" },
+    { code: "P014", name: "Browning HP 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P014.JPG" },
+    { code: "P015", name: "Browning HP MK-III 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P015.jpg" },
+    { code: "P016", name: "Glock 26 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P016.JPG" },
+    { code: "P017", name: "Glock 17 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P017.JPG" },
+    { code: "P018", name: "Glock 17 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P018.jpg" },
+    { code: "P019", name: "Glock 19 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P019.jpg" },
+    { code: "P020", name: "Glock 17 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P020.JPG" },
+    { code: "P021", name: "Glock 18 9 mm semi / machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P021.JPG" },
+    { code: "P022", name: "CZ - 75 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P022.jpg" },
+    { code: "P023", name: "CZ - 85 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P023.JPG" },
+    { code: "P024", name: "HK P-7 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P024.jpg" },
+    { code: "P025", name: "H & K USP 9 mm Pistol (Compensator)", img: "https://www.hkmoviegun.com.hk/products/420x420/P025.jpg" },
+    { code: "P026", name: "H & K USP 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P026.jpg" },
+    { code: "P027", name: "H & K USP 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P027.JPG" },
+    { code: "P028", name: "Walther P-99 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P028.JPG" },
+    { code: "P029", name: "SIG P250-T 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P029.jpg" },
+    { code: "P030", name: "SIG Sauer P-250 DCc 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P030.JPG" },
+    { code: "P031", name: "SIG P-250 DCc 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P031.jpg" },
+    { code: "P032", name: "SIG P-250 DCc 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P032.jpg" },
+    { code: "P033", name: "SIG P-226 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P033.jpg" },
+    { code: "P034", name: "SIG P-228 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P034.jpg" },
+    { code: "P035", name: "SIG P-229 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P035.jpg" },
+    { code: "P036", name: "SIG P-229 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P036.jpg" },
+    { code: "P037", name: "STI 2011 .45 ACP Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P037.jpg" },
+    { code: "P038", name: "Colt MkIV Series70 .45 Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P038.jpg" },
+    { code: "P039", name: "Colt National Match .38 Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P039.jpg" },
+    { code: "P040", name: "Colt M-1911 A1 .45 ACP Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P040.jpg" },
+    { code: "P041", name: "Colt Double Eagle .45ACP Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P041.jpg" },
+    { code: "P042", name: "Para Ordnance P-14 .45 ACP Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P042.jpg" },
+    { code: "P043", name: "1911 A1 9 mm Pistol (Competition Sight)", img: "https://www.hkmoviegun.com.hk/products/420x420/P043.jpg" },
+    { code: "P044", name: "Llama Compact 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P044.jpg" },
+    { code: "P045", name: "Desert Eagle .357 Magnum Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P045.jpg" },
+    { code: "P046", name: "IAI Automag Mark III .30 Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P046.jpg" },
+    { code: "P047", name: "S & W 3913 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P047.jpg" },
+    { code: "P048", name: "S & W 5904 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P048.jpg" },
+    { code: "P049", name: "S & W 559 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P049.jpg" },
+    { code: "P050", name: "S & W 5906 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P050.jpg" },
+    { code: "P051", name: "Taurus PT-92 AF 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P051.jpg" },
+    { code: "P052", name: "Taurus PT-92 AF 9 mm Machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P052.jpg" },
+    { code: "P053", name: "Taurus PT-92 AF 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P053.jpg" },
+    { code: "P054", name: "Taurus PT-92 AFS 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P054.jpg" },
+    { code: "P055", name: "356 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P055.jpg" },
+    { code: "P056", name: "Walther PP 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P056.jpg" },
+    { code: "P057", name: "Walther PPK 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P057.jpg" },
+    { code: "P058", name: "Davis D-32 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P058.jpg" },
+    { code: "P059", name: "Advantage 422 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P059.jpg" },
+    { code: "P060", name: "Davis P-32 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P060.jpg" },
+    { code: "P061", name: "American Derringer DA-38 .38 Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P061.jpg" },
+    { code: "P062", name: "Beretta 71 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P062.jpg" },
+    { code: "P063", name: "Beretta 1935 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P063.jpg" },
+    { code: "P064", name: "Mauser 1914 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P064.jpg" },
+    { code: "P065", name: "FN 1910 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P065.jpg" },
+    { code: "P066", name: "France MAB 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P066.jpg" },
+    { code: "P067", name: "Luger P-08 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P067.jpg" },
+    { code: "P068", name: "Wather P-1 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P068.jpg" },
+    { code: "P069", name: "Wather P-38 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P069.jpg" },
+    { code: "P070", name: "Wather P-38 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P070.jpg" },
+    { code: "P071", name: "Mauser 1896 9 mm pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P071.jpg" },
+    { code: "P072", name: "Japanese Type 94 8 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P072.jpg" },
+    { code: "P073", name: "Nambu Type 14 8 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P073.jpg" },
+    { code: "P074", name: "Makarov PM 9 mm x 18 Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P074.jpg" },
+    { code: "P075", name: "CZ-52 7.62 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P075.jpg" },
+    { code: "P076", name: "RUSKO APS 9 mm x 18 Machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P076.jpg" },
+    { code: "P077", name: "Norinco M-213 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P077.jpg" },
+    { code: "P078", name: "Tokarev TT-33 7.62 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P078.jpg" },
+    { code: "P079", name: "Norinco M-213 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P079.jpg" },
+    { code: "P080", name: "Egyptian Helwan 9 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P080.jpg" },
+    { code: "P081", name: "Browning Challenger III .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P081.jpg" },
+    { code: "P082", name: "Browning Medalist .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P082.jpg" },
+    { code: "P083", name: "Colt Woodsman .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P083.jpg" },
+    { code: "P084", name: "Hammerli International .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P084.jpg" },
+    { code: "P085", name: "Colt Woodsman .22 LR Pistol (with Silencer)", img: "https://www.hkmoviegun.com.hk/products/420x420/P085.JPG" },
+    { code: "P086", name: "High Standard 107 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P086.jpg" },
+    { code: "P087", name: "Ruger Mark II Target .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P087.jpg" },
+    { code: "P088", name: "S & W 22 A .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P088.jpg" },
+    { code: "P089", name: "S & W 41 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P089.jpg" },
+    { code: "P090", name: "S & W 422-6 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P090.jpg" },
+    { code: "P091", name: "S & W 662 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P091.jpg" },
+    { code: "P092", name: "S & W M-422 .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P092.jpg" },
+    { code: "P093", name: "Walther GSP .22 LR Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P093.jpg" },
+    { code: "P094", name: "Wather FII 42 Signal Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P094.JPG" },
+    { code: "P095", name: "HK SIG P2A1 Signal Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P095.jpg" },
+    { code: "P096", name: "S & W Gas-Flare Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P096.JPG" },
+    { code: "P097", name: "CZ 27 7.65 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P097.jpg" },
+    { code: "P098", name: "SIG P250 9mm Pistol with Light, Laser", img: "https://www.hkmoviegun.com.hk/products/420x420/P098.jpg" },
+    { code: "P099", name: "SIG Sauer SIG Pro P2340 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P099.jpg" },
+    { code: "P100", name: "Type CF 98 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P100.jpg" },
+    { code: "P101", name: "Beretta M92 F two tong 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P101.jpg" },
+    { code: "P102", name: "Walther PPQ 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P102.jpg" },
+    { code: "P103", name: "BT9 9mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P103.jpg" },
+    { code: "P104", name: "LAR PDS 5.56 mm Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P104.jpg" },
+    { code: "P105", name: "SIG SAUER P230 .380 ACP Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/P105.jpg" },
+  ]},
+  { key: "revolver", title: "Revolver", items: [
+    { code: "R001", name: "Colt Cobra .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R001.JPG" },
+    { code: "R002", name: "Colt Cobra .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R002.jpg" },
+    { code: "R003", name: "Colt Detective Special .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R003.jpg" },
+    { code: "R004", name: "Colt Detective Special .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R004.jpg" },
+    { code: "R005", name: "Colt .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R005.jpg" },
+    { code: "R006", name: "Colt Officers .22 LR Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R006.jpg" },
+    { code: "R007", name: "Colt Officers .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R007.jpg" },
+    { code: "R008", name: "S & W 60-2 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R008.jpg" },
+    { code: "R009", name: "S & W M-36 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R009.jpg" },
+    { code: "R010", name: "S & W 66-2.5 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R010.jpg" },
+    { code: "R011", name: "S & W 66-4 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R011.jpg" },
+    { code: "R012", name: "S & W 13-3 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R012.jpg" },
+    { code: "R013", name: "S & W 13 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R013.jpg" },
+    { code: "R014", name: "S & W 13 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R014.jpg" },
+    { code: "R015", name: "S & W 10-4 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R015.jpg" },
+    { code: "R016", name: "S & W 10-5.5 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R016.jpg" },
+    { code: "R017", name: "S & W 10-6 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R017.jpg" },
+    { code: "R018", name: "S & W Victory .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R018.jpg" },
+    { code: "R019", name: "S & W 64-4 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R019.jpg" },
+    { code: "R020", name: "S & W 10-4 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R020.jpg" },
+    { code: "R021", name: "S & W 10-4 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R021.jpg" },
+    { code: "R022", name: "Colt Python .357 4in Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R022.jpg" },
+    { code: "R023", name: "Colt Python 6in .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R023.jpg" },
+    { code: "R024", name: "S & W 686-4 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R024.jpg" },
+    { code: "R025", name: "S & W 686-4 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R025.jpg" },
+    { code: "R026", name: "S & W 686-6 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R026.jpg" },
+    { code: "R027", name: "S & W 686-6 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R027.jpg" },
+    { code: "R028", name: "S & W 586-4 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R028.jpg" },
+    { code: "R029", name: "S & W 586-6 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R029.jpg" },
+    { code: "R030", name: "S & W 14-6 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R030.jpg" },
+    { code: "R031", name: "S & W Custom .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R031.jpg" },
+    { code: "R032", name: "Rossi 461 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R032.jpg" },
+    { code: "R033", name: "Taurus 85-2 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R033.jpg" },
+    { code: "R034", name: "Taurus 85-2 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R034.jpg" },
+    { code: "R035", name: "Taurus 85-2 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R035.jpg" },
+    { code: "R036", name: "Taurus 82-3 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R036.jpg" },
+    { code: "R037", name: "Taurus 82-4 .38 SPL. Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R037.jpg" },
+    { code: "R038", name: "Taurus 66-4 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R038.jpg" },
+    { code: "R039", name: "Taurus 669-6 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R039.jpg" },
+    { code: "R040", name: "Ruger SP101 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R040.jpg" },
+    { code: "R041", name: "Ruger GP-100 .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R041.jpg" },
+    { code: "R042", name: "Japanese Type 26 8 mm Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R042.jpg" },
+    { code: "R043", name: "Lebel 1892 8 mm Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R043.jpg" },
+    { code: "R044", name: "Nagant 1895 7.62 mm Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R044.jpg" },
+    { code: "R045", name: "Tanfoglio EASA .22 LR Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R045.jpg" },
+    { code: "R046", name: "Ruger Blackhawk .357 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R046.jpg" },
+    { code: "R047", name: "Webley MK IV .38 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R047.jpg" },
+    { code: "R048", name: "Webley MK VI .455 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R048.jpg" },
+    { code: "R049", name: "Webley MK VI .455 Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R049.jpg" },
+    { code: "R050", name: "Remington BP Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R050.jpg" },
+    { code: "R051", name: "Remington BP Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R051.JPG" },
+    { code: "R052", name: "Chiappa 40DS 9mm Revolver", img: "https://www.hkmoviegun.com.hk/products/420x420/R052.jpg" },
+  ]},
+  { key: "rifle", title: "Rifle", items: [
+    { code: "LR001", name: "AKS 74 U 5.45 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR001.JPG" },
+    { code: "LR002", name: "Type 56-1 7.62 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR002.JPG" },
+    { code: "LR003", name: "AKM 7.62 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR003.jpg" },
+    { code: "LR004", name: "Type 56 7.62 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR004.jpg" },
+    { code: "LR005", name: "AK-47 7.62 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR005.jpg" },
+    { code: "LR006", name: "AK-47 7.62 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR006.jpg" },
+    { code: "LR007", name: "SKS 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR007.jpg" },
+    { code: "LR008", name: "SKS 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR008.jpg" },
+    { code: "LR009", name: "SKS Type 56 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR009.jpg" },
+    { code: "LR010", name: "Draganov SVD 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR010.jpg" },
+    { code: "LR011", name: "Colt 5.56 mm Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR011.jpg" },
+    { code: "LR012", name: "Colt M177E2 5.56mm Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR012.jpg" },
+    { code: "LR013", name: "Colt M4A1 5.56mm Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR013.jpg" },
+    { code: "LR014", name: "Colt M-655 5.56 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR014.jpg" },
+    { code: "LR015", name: "Colt M-177 5.56 mm Assault Rifle with Grenade Launcher", img: "https://www.hkmoviegun.com.hk/products/420x420/LR015.jpg" },
+    { code: "LR016", name: "M4 A1 Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR016.jpg" },
+    { code: "LR017", name: "5.56 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR017.jpg" },
+    { code: "LR018", name: "M16 A2 with Grenade Launcher", img: "https://www.hkmoviegun.com.hk/products/420x420/LR018.jpg" },
+    { code: "LR019", name: "Colt M-16 A1 5.56 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR019.jpg" },
+    { code: "LR020", name: "Colt M-16 A2 5.56 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR020.jpg" },
+    { code: "LR021", name: "AR-15 A4 5.56 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR021.jpg" },
+    { code: "LR022", name: "National Ordnance AR-15 5.56 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR022.jpg" },
+    { code: "LR023", name: "National Ordnance Stoner Type 5.56 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR023.jpg" },
+    { code: "LR024", name: "Steyr AUG 5.56 mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR024.jpg" },
+    { code: "LR025", name: "Bushmaster M-17S 5.56 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR025.jpg" },
+    { code: "LR026", name: "FN FAL L1A1 7.62 NATO Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR026.jpg" },
+    { code: "LR027", name: "FN FAL L1A1 7.62 NATO Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR027.jpg" },
+    { code: "LR028", name: "H & K G3 7.62 NATO Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR028.jpg" },
+    { code: "LR029", name: "PSG-1 7.62 NATO Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR029.jpg" },
+    { code: "LR030", name: "SSP-1 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR030.jpg" },
+    { code: "LR031", name: "G3 A3 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR031.jpg" },
+    { code: "LR032", name: "US M-1 .30 Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR032.jpg" },
+    { code: "LR033", name: "US M-1 .30 Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR033.jpg" },
+    { code: "LR034", name: "M-14 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR034.jpg" },
+    { code: "LR035", name: "US M-1 Garand .30-06 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR035.jpg" },
+    { code: "LR036", name: "Schmidt Rubin 1931 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR036.jpg" },
+    { code: "LR037", name: "Remington 700 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR037.jpg" },
+    { code: "LR038", name: "US Enfield No.3 MK1 .303 Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR038.jpg" },
+    { code: "LR039", name: "Remington M700 (M24) 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR039.jpg" },
+    { code: "LR040", name: "Lee Enfiled MK III 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR040.jpg" },
+    { code: "LR041", name: "HOWA 1500 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR041.jpg" },
+    { code: "LR042", name: "Remington PSS 700 7.62mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR042.jpg" },
+    { code: "LR043", name: "Winchester Model 70 .30-06 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR043.jpg" },
+    { code: "LR044", name: "Arisaka Type 38 6.5 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR044.jpg" },
+    { code: "LR045", name: "Arisaka-Type 99 7.7 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR045.jpg" },
+    { code: "LR046", name: "Russian Mosin Nagant 1938 7.62 mm Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR046.jpg" },
+    { code: "LR047", name: "Russian Mosin Nagant 1944 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR047.jpg" },
+    { code: "LR048", name: "Russian Mosin Nagant 1891/30 7.62 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR048.jpg" },
+    { code: "LR049", name: "Russian Mosin Nagant 1891/30 7.62 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR049.jpg" },
+    { code: "LR050", name: "Mauser 98K 7.92 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR050.jpg" },
+    { code: "LR051", name: "Mauser 98K With ZF41 7.92 mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR051.jpg" },
+    { code: "LR052", name: "Czech VZ24 7.92 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR052.jpg" },
+    { code: "LR053", name: "SVT-40 7.62mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR053.jpg" },
+    { code: "LR054", name: "USA Enfield No.3 MK I .303 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR054.jpg" },
+    { code: "LR055", name: "US Enfield No.4 MK I .303 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR055.jpg" },
+    { code: "LR056", name: "US Enfield No.4 MK I .303 Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR056.jpg" },
+    { code: "LR057", name: "Lee Enfield No.1 MK III .303 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR057.jpg" },
+    { code: "LR058", name: "Lee Enfield No.1 MK III .303 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR058.jpg" },
+    { code: "LR059", name: "Martini Henry .577 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR059.jpg" },
+    { code: "LR060", name: "Winchester 1873 .44-40 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR060.jpg" },
+    { code: "LR061", name: "Winchester 1873 .44-40 Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR061.jpg" },
+    { code: "LR062", name: "Winchester 1892 .44-40 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR062.jpg" },
+    { code: "LR063", name: "Winchester 1894 .30-30 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR063.jpg" },
+    { code: "LR064", name: "Remington M 1903 A3 .30-06 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR064.jpg" },
+    { code: "LR065", name: "Type 97", img: "https://www.hkmoviegun.com.hk/products/420x420/LR065.jpg" },
+    { code: "LR066", name: "AR 416 5.56 Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR066.jpg" },
+    { code: "LR067", name: "M4 5.56 Custom Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR067.jpg" },
+    { code: "LR068", name: "AKM 7.62 mm Rifle with Grenade Launcher", img: "https://www.hkmoviegun.com.hk/products/420x420/LR068.jpg" },
+    { code: "LR069", name: "AR-15 5.56mm CQB", img: "https://www.hkmoviegun.com.hk/products/420x420/LR069.jpg" },
+    { code: "LR070", name: "AR Match 5.56mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR070.jpg" },
+    { code: "LR071", name: "SIG 543 5.56 mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR071.jpg" },
+    { code: "LR072", name: "MK-18 Mod 1 5.56mm Carbine", img: "https://www.hkmoviegun.com.hk/products/420x420/LR072.jpg" },
+    { code: "LR073", name: "SIG 551-1 5.56mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR073.jpg" },
+    { code: "LR074", name: "SIG551-2 5.56mm SWAT Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR074.jpg" },
+    { code: "LR075", name: "CZ BREN 2 5.56 Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR075.jpg" },
+    { code: "LR076", name: "Barrett M82A1", img: "https://www.hkmoviegun.com.hk/products/420x420/LR076.jpg" },
+    { code: "LR077", name: "HK G-36 K 5.56mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR077.jpg" },
+    { code: "LR078", name: "HK MRG-234 5.56mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR078.jpg" },
+    { code: "LR079", name: "SIG Sauer 540 7.62mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR079.jpg" },
+    { code: "LR080", name: "HK G-36C 5.56mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR080.jpg" },
+    { code: "LR081", name: "NQU 03 5.56mm Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR081.jpg" },
+    { code: "LR082", name: "M1 C .30-06 Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR082.jpg" },
+    { code: "LR083", name: "M1903 A4 Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR083.jpg" },
+    { code: "LR084", name: "BT-9G 9mm Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR084.jpg" },
+    { code: "LR085", name: "IWI Tavor TAR 21 5.56mm Assault Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR085.jpg" },
+    { code: "LR086", name: "TIKKA T3X .308 Sniper Rifle", img: "https://www.hkmoviegun.com.hk/products/420x420/LR086.jpg" },
+  ]},
+  { key: "machinegun", title: "Machine Gun", items: [
+    { code: "MG001", name: "Calico 950 9 mm Machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/MG001.JPG" },
+    { code: "MG002", name: "Skorpion 61 7.65 mm Machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/MG002.jpg" },
+    { code: "MG003", name: "M11 .380 ACP Sub-Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/MG003.jpg" },
+    { code: "MG004", name: "Intratech AB-10 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG004.jpg" },
+    { code: "MG005", name: "B & T MP-9 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG005.jpg" },
+    { code: "MG006", name: "H & K MP 5 K A1 9 mm SMG (Tactical Rail + Scope)", img: "https://www.hkmoviegun.com.hk/products/420x420/MG006.jpg" },
+    { code: "MG007", name: "H & K MP 5 K A1 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG007.jpg" },
+    { code: "MG008", name: "H & K MP 5 PDW 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG008.jpg" },
+    { code: "MG009", name: "H & K MP 5 A3 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG009.jpg" },
+    { code: "MG010", name: "H & K MP 5 A3 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG010.jpg" },
+    { code: "MG011", name: "H & K MP 5 A3 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG011.jpg" },
+    { code: "MG012", name: "H & K MP 5 A 2 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG012.jpg" },
+    { code: "MG013", name: "H & K MP 5 A2 9 mm SMG (Silencer)", img: "https://www.hkmoviegun.com.hk/products/420x420/MG013.jpg" },
+    { code: "MG014", name: "H & K MP 5 SD 5 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG014.jpg" },
+    { code: "MG015", name: "H & K MP 5 SD 3 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG015.jpg" },
+    { code: "MG016", name: "CAA G-17 9 mm Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/MG016.jpg" },
+    { code: "MG017", name: "IMI Micro UZI 9 mm Machine Pistol", img: "https://www.hkmoviegun.com.hk/products/420x420/MG017.jpg" },
+    { code: "MG018", name: "IMI Mini UZI 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG018.jpg" },
+    { code: "MG019", name: "IMI UZI 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG019.jpg" },
+    { code: "MG020", name: "IMI UZI 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG020.jpg" },
+    { code: "MG021", name: "Sterling L2 A3 MK IV 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG021.jpg" },
+    { code: "MG022", name: "Sten MK II 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG022.jpg" },
+    { code: "MG023", name: "Sten MK II 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG023.jpg" },
+    { code: "MG024", name: "Sten MK II 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG024.jpg" },
+    { code: "MG025", name: "Guide M3 A1 .45 ACP MG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG025.jpg" },
+    { code: "MG026", name: "VZ 26 9mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG026.jpg" },
+    { code: "MG027", name: "PPSH 41 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG027.jpg" },
+    { code: "MG028", name: "PPS 43 9 mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG028.jpg" },
+    { code: "MG029", name: "Thompson 1928 A1 .45 ACP SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG029.jpg" },
+    { code: "MG030", name: "Thompson M1 A1 .45 ACP SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG030.jpg" },
+    { code: "MG031", name: "Thompson 1928 A1 .45 ACP SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG031.jpg" },
+    { code: "MG032", name: "M-1 .30 Double Barrel SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG032.jpg" },
+    { code: "MG033", name: "Walther MPK", img: "https://www.hkmoviegun.com.hk/products/420x420/MG033.jpg" },
+    { code: "MG034", name: "MP 40", img: "https://www.hkmoviegun.com.hk/products/420x420/MG034.jpg" },
+    { code: "MG035", name: "Steyr MP", img: "https://www.hkmoviegun.com.hk/products/420x420/MG035.jpg" },
+    { code: "MG036", name: "CAA 17 Best Stock 9mm Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/MG036.jpg" },
+    { code: "MG037", name: "FN P90 Tactical Rotators", img: "https://www.hkmoviegun.com.hk/products/420x420/MG037.jpg" },
+    { code: "MG038", name: "Jati-Matic 9mm Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/MG038.jpg" },
+    { code: "MG039", name: "Sten ML III 9mm Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/MG039.jpg" },
+    { code: "MG040", name: "CZ Scorpion EVO 3 A1 9mm SMG", img: "https://www.hkmoviegun.com.hk/products/420x420/MG040.jpg" },
+  ]},
+  { key: "shotgun", title: "Shotgun", items: [
+    { code: "S001", name: "Mad Max 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S001.jpg" },
+    { code: "S002", name: "Protecta Bulldog 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S002.jpg" },
+    { code: "S003", name: "Federal SPAS 12 Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S003.jpg" },
+    { code: "S004", name: "Federal SPAP 12 Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S004.jpg" },
+    { code: "S005", name: "Benelli M-3 Super 90 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S005.jpg" },
+    { code: "S006", name: "Benelli M-3 Super 90 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S006.jpg" },
+    { code: "S007", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S007.jpg" },
+    { code: "S008", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S008.jpg" },
+    { code: "S009", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S009.jpg" },
+    { code: "S010", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S010.jpg" },
+    { code: "S011", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S011.jpg" },
+    { code: "S012", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S012.jpg" },
+    { code: "S013", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S013.jpg" },
+    { code: "S014", name: "Remington 870 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S014.jpg" },
+    { code: "S015", name: "Remington 1100 Semi-Auto 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S015.jpg" },
+    { code: "S016", name: "Mossberg 500 A 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S016.jpg" },
+    { code: "S017", name: "Mossberg 500A 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S017.jpg" },
+    { code: "S018", name: "Mossberg 590 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S018.jpg" },
+    { code: "S019", name: "Ithaca 37 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S019.jpg" },
+    { code: "S020", name: "Winchester 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S020.jpg" },
+    { code: "S021", name: "Winchester 1300 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S021.jpg" },
+    { code: "S022", name: "Browning Semi-Auto 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S022.jpg" },
+    { code: "S023", name: "Browning Over/Under 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S023.jpg" },
+    { code: "S024", name: "Lamber Over/Under 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S024.jpg" },
+    { code: "S025", name: "Midland Side by Side 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S025.jpg" },
+    { code: "S026", name: "Midland Side by Side 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S026.jpg" },
+    { code: "S027", name: "SPR220 Cowboy 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S027.jpg" },
+    { code: "S028", name: "Winchester 97 12 GA Shotgun", img: "https://www.hkmoviegun.com.hk/products/420x420/S028.jpg" },
+    { code: "S029", name: "37 mm Riot Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/S029.JPG" },
+    { code: "S030", name: "Federal M201 Z Riot Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/S030.jpg" },
+    { code: "S031", name: "UZKON UNG 12 (OP-1)", img: "https://www.hkmoviegun.com.hk/products/420x420/S031.jpg" },
+    { code: "S032", name: "UZKON UNG 12 (OP-2)", img: "https://www.hkmoviegun.com.hk/products/420x420/S032.jpg" },
+    { code: "S033", name: "UZKON UNG 12 (OP-3)", img: "https://www.hkmoviegun.com.hk/products/420x420/S033.jpg" },
+    { code: "S034", name: "UZKON UNG 12 (OP-4)", img: "https://www.hkmoviegun.com.hk/products/420x420/S034.jpg" },
+    { code: "S035", name: "UZKON UNG 12 (OP-5)", img: "https://www.hkmoviegun.com.hk/products/420x420/S035.jpg" },
+    { code: "S036", name: "UZKON UNG 12 (OP-6)", img: "https://www.hkmoviegun.com.hk/products/420x420/S036.jpg" },
+    { code: "S037", name: "UZKON UNG 12 (OP-12)", img: "https://www.hkmoviegun.com.hk/products/420x420/S037.jpg" },
+    { code: "S038", name: "UTAS-UTS 15 with Red Dot Sight", img: "https://www.hkmoviegun.com.hk/products/420x420/S038.jpg" },
+    { code: "S039", name: "UTAS-UTS 15", img: "https://www.hkmoviegun.com.hk/products/420x420/S039.jpg" },
+    { code: "S040", name: "38mm Anti Riot Launcher", img: "https://www.hkmoviegun.com.hk/products/420x420/S040.jpg" },
+  ]},
+  { key: "hmg", title: "Heavy Machine Gun", items: [
+    { code: "HMG001", name: "CIS Ultimax SAW MK II 5.56 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG001.jpg" },
+    { code: "HMG002", name: "Russian RPD 7.62 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG002.jpg" },
+    { code: "HMG003", name: "Russian RPK 7.62 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG003.jpg" },
+    { code: "HMG004", name: "SACO M-60 7.62 NATO HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG004.jpg" },
+    { code: "HMG005", name: "SACO M-60 7.62 NATO HMG (Helicopter Model)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG005.jpg" },
+    { code: "HMG006", name: "GPMG 7.62 NATO HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG006.jpg" },
+    { code: "HMG007", name: "Browning BAR M1918 A2 30-06 HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG007.jpg" },
+    { code: "HMG008", name: "Czech ZB 26 7.92 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG008.jpg" },
+    { code: "HMG009", name: "Bren MK I .303 HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG009.jpg" },
+    { code: "HMG010", name: "Degtyarev DP 1928 7.62 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG010.jpg" },
+    { code: "HMG011", name: "Japanese Type 96 7.7 HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG011.jpg" },
+    { code: "HMG012", name: "PKM 7.62 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG012.jpg" },
+    { code: "HMG013", name: "MG 34 7.92 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG013.jpg" },
+    { code: "HMG014", name: "MG 34 7.92mm HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG014.jpg" },
+    { code: "HMG015", name: "MG 42 7.92 mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG015.jpg" },
+    { code: "HMG016", name: "MG 42 7.92 mm HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG016.jpg" },
+    { code: "HMG017", name: "MG 42 7.92mm HMG (with AA Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG017.jpg" },
+    { code: "HMG018", name: "Great Britain .303 HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG018.jpg" },
+    { code: "HMG019", name: "Browning M1919 A4 7.62 NATO HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG019.jpg" },
+    { code: "HMG020", name: "MINIMI 5.56 NATO Machine Gun", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG020.jpg" },
+    { code: "HMG021", name: "Maxim 1910 7.62 mm HMG (with Wheel Set)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG021.jpg" },
+    { code: "HMG022", name: "RUSKO GORJUNOV 43 7.62mm HMG (with Wheel Set)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG022.jpg" },
+    { code: "HMG023", name: "USSR DS-39 7.62mm HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG023.jpg" },
+    { code: "HMG024", name: "ZB VZ 37 7.92 mm HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG024.jpg" },
+    { code: "HMG025", name: "UK VZ 59 7.62mm HMG", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG025.jpg" },
+    { code: "HMG026", name: "Vickers MK 1 .303 HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG026.jpg" },
+    { code: "HMG027", name: "Japanese Type-92 7.7 HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG027.jpg" },
+    { code: "HMG028", name: "Browning M2 HB .50 HMG (with Tripod)", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG028.jpg" },
+    { code: "HMG029", name: "M249 Minimi 1st Pattern", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG029.jpg" },
+    { code: "HMG030", name: "MinimiPara", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG030.jpg" },
+    { code: "HMG031", name: "7.62mm PKMS with Tripod", img: "https://www.hkmoviegun.com.hk/products/420x420/HMG031.jpg" },
+  ]},
+];
+
+        const PER_PAGE = 9;
+        let currentCat = 'pistol';
+        let currentPage = 1;
+
+        const filterBar = document.getElementById('filterBar');
+        const filterCount = document.getElementById('filterCount');
+        const categoryTitle = document.getElementById('categoryTitle');
+        const productGrid = document.getElementById('productGrid');
+        const paginationEl = document.getElementById('pagination');
+
+        function buildFilterBar() {
+            filterBar.innerHTML = categories.map((cat, i) => `
+                <button class="filter-btn ${cat.key === currentCat ? 'active' : ''}" data-key="${cat.key}">
+                    ${cat.title} (${cat.items.length})
+                </button>
+            `).join('');
+        }
+
+        function renderPage() {
+            const cat = categories.find(c => c.key === currentCat);
+            const totalPages = Math.max(1, Math.ceil(cat.items.length / PER_PAGE));
+            currentPage = Math.min(Math.max(1, currentPage), totalPages);
+
+            categoryTitle.textContent = cat.title;
+            filterCount.textContent = `Showing ${Math.min((currentPage - 1) * PER_PAGE + 1, cat.items.length)}-${Math.min(currentPage * PER_PAGE, cat.items.length)} of ${cat.items.length} items`;
+
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageItems = cat.items.slice(start, start + PER_PAGE);
+
+            productGrid.innerHTML = pageItems.map(p => `
+                <div class="product-card">
+                    <div class="product-img-wrap">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.opacity=0.15">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-code">${p.code}</div>
+                        <div class="product-name">${p.name}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            let pagHtml = `<button class="page-btn" id="prevBtn" ${currentPage === 1 ? 'disabled' : ''}>&larr;</button>`;
+            const maxButtons = 7;
+            let startP = Math.max(1, currentPage - 3);
+            let endP = Math.min(totalPages, startP + maxButtons - 1);
+            startP = Math.max(1, endP - maxButtons + 1);
+
+            if (startP > 1) {
+                pagHtml += `<button class="page-btn" data-page="1">1</button>`;
+                if (startP > 2) pagHtml += `<span style="color:#555;padding:0 4px;">...</span>`;
+            }
+            for (let p = startP; p <= endP; p++) {
+                pagHtml += `<button class="page-btn ${p === currentPage ? 'active' : ''}" data-page="${p}">${p}</button>`;
+            }
+            if (endP < totalPages) {
+                if (endP < totalPages - 1) pagHtml += `<span style="color:#555;padding:0 4px;">...</span>`;
+                pagHtml += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
+            }
+            pagHtml += `<button class="page-btn" id="nextBtn" ${currentPage === totalPages ? 'disabled' : ''}>&rarr;</button>`;
+            paginationEl.innerHTML = pagHtml;
+
+            document.querySelectorAll('.page-btn[data-page]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentPage = parseInt(btn.dataset.page);
+                    renderPage();
+                    document.getElementById('categoryTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); } });
+            if (nextBtn) nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderPage(); } });
+        }
+
+        filterBar.addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            currentCat = btn.dataset.key;
+            currentPage = 1;
+            buildFilterBar();
+            renderPage();
+        });
+
+        buildFilterBar();
+        renderPage();
+
+        // Gunfire video background - no canvas animation needed
+        function scrollToProducts(e) {
+            e.preventDefault();
+            const btn = e.target;
+            const rect = btn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                const ember = document.createElement('div');
+                ember.className = 'ember';
+                ember.style.left = centerX + 'px';
+                ember.style.top = centerY + 'px';
+                ember.style.setProperty('--ex', (Math.random() - 0.5) * 300 + 'px');
+                ember.style.setProperty('--ey', -Math.random() * 300 - 50 + 'px');
+                document.body.appendChild(ember);
+                setTimeout(() => ember.remove(), 3000);
+            }
+
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

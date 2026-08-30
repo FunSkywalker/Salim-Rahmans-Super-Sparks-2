@@ -1,0 +1,1170 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salim's Rahman's Super Sparks Special Effects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            background: #06070a;
+        }
+
+        /* ===== BACKGROUND VIDEO ===== */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        #bg-video-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(ellipse at center, rgba(6,7,10,0.35) 0%, rgba(6,7,10,0.9) 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== NAV BANNER ===== */
+        .nav-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(6,7,10,0.72);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 5vw;
+        }
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-family: 'Black Ops One', cursive;
+            font-size: 1.3rem;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 10px #ff4400, 0 0 20px #ff2200;
+            white-space: nowrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .nav-link:hover {
+            color: #ffaa33;
+            background: rgba(255,102,0,0.08);
+        }
+        .nav-link.active {
+            color: #ffaa33;
+            background: rgba(255,102,0,0.12);
+            border: 1px solid rgba(255,102,0,0.3);
+        }
+
+        /* ===== HERO SECTION ===== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            margin-top: 64px;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, #06070a);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: all;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 10%, rgba(6,7,10,0.55) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .pre-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            color: #ffe4c4;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #ff6600, 0 0 30px #ff4400;
+        }
+
+        .main-title {
+            font-family: 'Black Ops One', cursive;
+            font-size: clamp(4rem, 14vw, 12rem);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 0.9;
+            color: #fff;
+            text-shadow: 
+                0 0 20px #ff4400,
+                0 0 40px #ff3300,
+                0 0 80px #ff2200,
+                0 0 120px #cc0000,
+                0 0 200px #990000,
+                0 0 300px #660000;
+        }
+
+        .sub-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: #ffaa33;
+            margin-top: 0.8rem;
+            text-transform: uppercase;
+            text-shadow: 
+                0 0 10px #ff6600,
+                0 0 30px #ff4400,
+                0 0 60px #ff2200;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1rem, 2.2vw, 1.5rem);
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            color: #ffe4c4;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
+        .divider {
+            width: 250px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6600, #ffaa33, #ff6600, transparent);
+            margin: 2rem auto;
+            box-shadow: 0 0 20px #ff6600, 0 0 40px #ff3300;
+        }
+
+        .cta-button {
+            margin-top: 3rem;
+            padding: 1.2rem 4rem;
+            background: rgba(255, 102, 0, 0.1);
+            border: 1px solid rgba(255, 102, 0, 0.45);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 
+                0 0 20px rgba(255, 102, 0, 0.18),
+                inset 0 0 20px rgba(255, 102, 0, 0.06);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 102, 0, 0.22);
+            box-shadow: 
+                0 0 40px rgba(255, 102, 0, 0.45),
+                inset 0 0 30px rgba(255, 102, 0, 0.18);
+            color: #fff;
+            border-color: #ffaa33;
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+            opacity: 0.8;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 30px;
+            height: 50px;
+            border: 2px solid #ff6600;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .scroll-indicator span::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #ff6600;
+            border-radius: 50%;
+            animation: scroll-dot 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes scroll-dot {
+            0% { opacity: 1; top: 8px; }
+            100% { opacity: 0; top: 30px; }
+        }
+
+        #content-wrapper {
+            position: relative;
+            z-index: 10;
+            background: transparent;
+        }
+
+        /* ===== GLASS BOX SCROLL PANELS (cmpaidetector-style: deep near-black glass, crisp border, generous radius) ===== */
+        .section-light,
+        .section-mid {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(50px) scale(0.98);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .section-light.in-view,
+        .section-mid.in-view {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .section-light > .section,
+        .section-mid > .section {
+            background: rgba(12, 14, 20, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            backdrop-filter: blur(28px) saturate(150%);
+            -webkit-backdrop-filter: blur(28px) saturate(150%);
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            padding: 70px 60px;
+            max-width: none;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-light > .section::before,
+        .section-mid > .section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
+
+        .section-mid > .section {
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 0 rgba(255, 102, 0, 0);
+            transition: box-shadow 1.2s ease;
+        }
+        .section-mid.in-view > .section {
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 70px rgba(255, 102, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .section-light > .section,
+            .section-mid > .section {
+                padding: 45px 26px;
+                border-radius: 20px;
+            }
+            .section-light,
+            .section-mid {
+                margin: 36px auto;
+            }
+        }
+
+        .section {
+            position: relative;
+            z-index: 10;
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ff6600;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #ff6600;
+            border-radius: 2px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,102,0,0.35), transparent);
+            margin: 0 auto 0;
+            max-width: 800px;
+            opacity: 0.7;
+        }
+
+        #intro {
+            padding-top: 140px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .intro-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            padding: 2.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .intro-card:hover {
+            border-color: rgba(255,102,0,0.35);
+            box-shadow: 0 10px 40px rgba(255,102,0,0.08);
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.07);
+        }
+
+        .intro-card h3 {
+            font-family: 'Inter', sans-serif;
+            color: #ffaa33;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .intro-card p {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.8;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        #writeup {
+            background: transparent;
+        }
+
+        .writeup-content {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.9;
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        .writeup-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(255,255,255,0.045);
+            border-left: 3px solid #ff6600;
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            border-radius: 0 16px 16px 0;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255,255,255,0.09);
+            border-right: 1px solid rgba(255,255,255,0.09);
+            border-bottom: 1px solid rgba(255,255,255,0.09);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #fff;
+            font-weight: 500;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        #services {
+            background: transparent;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .service-item {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            padding: 1.4rem 1.8rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: default;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .service-item:hover {
+            background: rgba(255,102,0,0.1);
+            border-color: rgba(255,102,0,0.3);
+            transform: translateX(8px);
+        }
+
+        .service-item:hover .service-text {
+            color: #fff;
+        }
+
+        .service-item:hover .service-icon {
+            background: rgba(255,102,0,0.2);
+            color: #ffaa33;
+            border-color: rgba(255,102,0,0.4);
+        }
+
+        .service-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.07);
+            color: #ffaa33;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .service-text {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+        }
+
+        #other-services {
+            background: transparent;
+        }
+
+        .other-services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .other-service-item {
+            padding: 1.2rem 1.5rem;
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 3rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .other-service-item::before {
+            content: '—';
+            position: absolute;
+            left: 1.2rem;
+            color: #ff6600;
+            font-weight: 700;
+        }
+
+        .other-service-item:hover {
+            background: rgba(255,102,0,0.1);
+            border-color: rgba(255,102,0,0.3);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .other-service-item:hover::before {
+            color: #ffaa33;
+        }
+
+        #company-details {
+            padding-bottom: 100px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .detail-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .detail-card:hover {
+            border-color: rgba(255,102,0,0.35);
+            box-shadow: 0 8px 30px rgba(255,102,0,0.08);
+            background: rgba(255,255,255,0.07);
+        }
+
+        .detail-card h4 {
+            font-family: 'Inter', sans-serif;
+            color: #ffaa33;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .detail-card p {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .detail-card .label {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        footer {
+            background: rgba(6,7,10,0.85);
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.09);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            position: relative;
+            z-index: 10;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .ember {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #ffaa33, #ff6600);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ember-float 3s ease-out forwards;
+            box-shadow: 0 0 8px #ff6600;
+            z-index: 100;
+        }
+
+        @keyframes ember-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--ex), var(--ey)) scale(0); opacity: 0; }
+        }
+
+        @media (max-width: 500px) {
+            .nav-inner { height: auto; padding: 12px 0; flex-direction: column; gap: 10px; }
+            #hero { margin-top: 100px; }
+            .nav-links { gap: 4px; }
+            .nav-link { padding: 6px 10px; font-size: 0.6rem; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- ===== BACKGROUND VIDEO: fireworks in the dark with sparkles (Pexels, free to use) ===== -->
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="https://videos.pexels.com/video-files/18686281/18686281-uhd_2560_1440_30fps.mp4" type="video/mp4">
+        <!-- Fallback: browser will show canvas fireworks below if video fails to load -->
+    </video>
+    <div id="bg-video-overlay"></div>
+
+    <!-- ===== NAV BANNER ===== -->
+    <nav class="nav-banner">
+        <div class="nav-inner">
+            <a href="okok.html" class="nav-logo">Salim's Rahman's Super Sparks</a>
+            <div class="nav-links">
+                <a href="okok.html" class="nav-link active">Home</a>
+                <a href="aromory1.html" class="nav-link">Armory</a>
+                <a href="movie.html" class="nav-link">Movies</a>
+                <a href="fireworks.html" class="nav-link">Fireworks</a>
+                <a href="SFX.html" class="nav-link">SFX</a>
+                <a href="contactus.html" class="nav-link">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <canvas id="fireworks-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <p class="pre-title">Salim's Rahman's</p>
+            <h1 class="main-title">SUPER SPARKS</h1>
+            <p class="sub-title">Special Effects (M) Sdn Bhd</p>
+            <div class="divider"></div>
+            <p class="tagline">Pyrotechnics • Firearms • Movie SFX • Explosives</p>
+            <button class="cta-button" onclick="ignite(event)">Ignite The Show</button>
+        </div>
+
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <div id="content-wrapper">
+
+        <div class="section-divider"></div>
+
+        <div class="section-light">
+            <section id="intro" class="section">
+                <div class="section-header">
+                    <span class="section-number">01</span>
+                    <h2 class="section-title">Introduction</h2>
+                </div>
+                <div class="intro-grid">
+                    <div class="intro-card">
+                        <h3>Company Overview</h3>
+                        <p>Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd is a Private company incorporated on 8 November 2000, registered at the Registrar of Companies, Malaysia. With an Authorized Share Capital of RM 1,000,000.00 and Paid Up Capital of RM 1,000,000.00, we have rapidly grown into a well-respected Special Effects and Specialized Service Event Company.</p>
+                    </div>
+                    <div class="intro-card">
+                        <h3>Our Experience</h3>
+                        <p>The experience of our in-house team covers award-winning feature films, commercials, music videos, short films, live events, and new media content. Servicing both our international and local client base, we are all about building long-term relationships. Our production pipeline is constantly being reshaped and tailored to support productions.</p>
+                    </div>
+                    <div class="intro-card">
+                        <h3>Global Reach</h3>
+                        <p>Salim's Rahman's Super Sparks Special Effects continues to be a strong service provider of movie Special Effects, Explosives, Pyrotechniques, Aerial Display Fireworks, Musical Fireworks, and Specialised Movie Fire Arms services to companies and studios around the world. We have been involved in projects across South Korea, Australia, South Africa, Hong Kong, Thailand, and major events shown everywhere from television to cinema.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="section-mid">
+            <section id="writeup" class="section">
+                <div class="section-header">
+                    <span class="section-number">02</span>
+                    <h2 class="section-title">Company Write Up</h2>
+                </div>
+                <div class="writeup-content">
+                    <p>We are a premier licensed company specializing in firearms supplies for government bodies, movie production companies, special effects, and equipment supplies for movies, pyrotechnics, fireworks displays for national events, and both government and private event management.</p>
+                    
+                    <p>With over a decade of experience, Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd serves as a consultant and execution works for both local and international companies for movies, and event management. With our well-managed professional and highly trained personnel, safety, discipline, effectiveness, and time are absolute must-have aspects that we give precedence to.</p>
+                    
+                    <div class="highlight-box">
+                        <p>"We provide top quality products and services for our clients at competitive prices. We are your one-stop centre specialised for anything and everything pertinent to our business portfolio."</p>
+                    </div>
+                    
+                    <p>We have a salutary relationship with several governmental and well-established companies, whereby our years of experience in this sector make it easier for us to get business opportunities. The storage of more than 9,000 movie firearms in Hong Kong includes sniper rifles, shotguns, auto and semi pistols, revolvers, machine guns, and even 15th-century guns, World War II guns, and many more that have played a role in films or television.</p>
+                    
+                    <p>We also supply guns and weapons props for movie usage, with associates for firearms suppliers in the United Kingdom, South Africa, Australia, and Thailand. All firearms for movie usage are blank firing, deactivated, or replicas, brought into the country under strict binding Firearms Law. Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd is a licensed firearms company under the Firearms Act.</p>
+                    
+                    <p>All deactivated weapons that have been converted can no longer discharge any shot, bullet, or other missile — they are blank firing guns intended for movie usage, handled by our professional Armourer and well-trained personnel. We offer a range of blank firing weapons as well as deactivated and replica firearms, creating a multitude of interiors as well as exterior sets to meet the needs of most films.</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="section-light">
+            <section id="services" class="section">
+                <div class="section-header">
+                    <span class="section-number">03</span>
+                    <h2 class="section-title">Main Services</h2>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-icon">🔥</div>
+                        <span class="service-text">Fire Arms / Armoury</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">💥</div>
+                        <span class="service-text">Pyrotechniques & Effects</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🎬</div>
+                        <span class="service-text">Real Explosives for Movies</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🎭</div>
+                        <span class="service-text">Movie Special Effects</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">❄️</div>
+                        <span class="service-text">Theatrical Stage Smoke, Snow, Ice Effects</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🎆</div>
+                        <span class="service-text">Execution of Musical Fireworks</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🤸</div>
+                        <span class="service-text">Stunt Masters</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">⭐</div>
+                        <span class="service-text">Talents All Levels</span>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">📋</div>
+                        <span class="service-text">Armoury / Special Effects / Pyro Permits</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="section-mid">
+            <section id="other-services" class="section">
+                <div class="section-header">
+                    <span class="section-number">04</span>
+                    <h2 class="section-title">Other Services</h2>
+                </div>
+                <div class="other-services-list">
+                    <div class="other-service-item">Job Site Safety (Fire, Explosives and Firearms)</div>
+                    <div class="other-service-item">Regulatory Compliance and Enforcements</div>
+                    <div class="other-service-item">Safety Consultancy / Observation / Planning & Coordination</div>
+                    <div class="other-service-item">Excellent Coordination Services with Relevant Authorities (Local Authority, BOMBA, POLICE PDRM, ERT)</div>
+                    <div class="other-service-item">Production support services</div>
+                    <div class="other-service-item">Executive Protection Agent / Bodyguards (Armed / Unarmed)</div>
+                    <div class="other-service-item">Firearms (Movie) Training for Actor, Actress & Talents</div>
+                    <div class="other-service-item">Armed / Unarmed Special Security Operations Services</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="section-light">
+            <section id="company-details" class="section">
+                <div class="section-header">
+                    <span class="section-number">05</span>
+                    <h2 class="section-title">Company Details</h2>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h4>Managing Director</h4>
+                        <p><span class="label">MOHD SALIM ABDUL RAHMAN</span><br>
+                        Contact: 019-3807503<br>
+                        Email: Available upon request</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Company Secretary</h4>
+                        <p><span class="label">Ybhg Dato AHMAD RUSTAM BIN ALI @ JAAFAR</span><br>
+                        (LS 0008277)<br>
+                        MALTICS CORPORATE CONSULTANCY SDN BHD<br>
+                        No. 5-4-2, Jalan 2/50, Diamond Square<br>
+                        Off Jalan Gombak, 53000 Kuala Lumpur</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Registration</h4>
+                        <p><span class="label">Company Registration No:</span> 618831-W<br>
+                        <span class="label">Ministry of Finance Reg No:</span> 357-02017071</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Registered Address</h4>
+                        <p>
+                        NO.5-4-2, JALAN 2/50, DIAMOND SQUARE<br>
+                        OFF JALAN GOMBAK, KUALA LUMPUR, W.P. KUALA LUMPUR<br>
+                        Postcode: 53000</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Business Address</h4>
+                        <p>Salim's Rahman's Super Sparks Special Effects (M) Sdn. Bhd. (618831-W)<br>
+                        NO.11, JALAN RASMI 7, TAMAN RASMI JAYA<br>
+                        AMPANG, SELANGOR<br>
+                        Postcode: 68000</p>
+                    </div>
+                    <div class="detail-card">
+                        <h4>Notable Clients</h4>
+                        <p>Britney Spears, Bruno Mars, Justin Bieber, Adam Lambert, Guns & Roses, Bollywood Movies & Concerts, Coca Cola, Marco Polo, and various local & international companies.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 SALIM'S RAHMAN'S SUPER SPARKS SPECIAL EFFECTS (M) SDN BHD. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let fireworks = [];
+        let particles = [];
+        let stars = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 2,
+                brightness: Math.random()
+            });
+        }
+
+        class Firework {
+            constructor(x, y, targetY) {
+                this.x = x;
+                this.y = y;
+                this.targetY = targetY;
+                this.speed = 8 + Math.random() * 6;
+                this.angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.2;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.trail = [];
+                this.exploded = false;
+                this.hue = Math.random() * 60 + 10;
+                this.brightness = Math.random() * 30 + 50;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.trail.push({x: this.x, y: this.y, alpha: 1});
+                    if (this.trail.length > 15) this.trail.shift();
+                    
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += 0.15;
+
+                    if (this.vy >= 0 || this.y <= this.targetY) {
+                        this.explode();
+                    }
+                }
+            }
+
+            explode() {
+                this.exploded = true;
+                const particleCount = 80 + Math.random() * 60;
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle(this.x, this.y, this.hue));
+                }
+            }
+
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    for (let i = this.trail.length - 1; i >= 0; i--) {
+                        const point = this.trail[i];
+                        ctx.lineTo(point.x, point.y);
+                        point.alpha *= 0.95;
+                    }
+                    ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, 0.8)`;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${this.hue}, 100%, 80%, 1)`;
+                    ctx.fill();
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y, hue) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 8 + 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.life = 1;
+                this.decay = Math.random() * 0.015 + 0.008;
+                this.hue = hue + (Math.random() - 0.5) * 30;
+                this.size = Math.random() * 4 + 2;
+                this.gravity = 0.08;
+                this.drag = 0.98;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.vx *= this.drag;
+                this.vy *= this.drag;
+                this.life -= this.decay;
+                this.size *= 0.98;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, 0.2)`;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, 70%, ${this.life})`;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue + 20}, 100%, 90%, ${this.life})`;
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function createFirework() {
+            const x = Math.random() * width * 0.8 + width * 0.1;
+            const targetY = Math.random() * height * 0.4 + height * 0.1;
+            fireworks.push(new Firework(x, height, targetY));
+        }
+
+        setInterval(() => {
+            if (fireworks.length < 5) {
+                createFirework();
+            }
+        }, 800);
+
+        canvas.addEventListener('click', (e) => {
+            const fw = new Firework(e.clientX, height, e.clientY);
+            fw.speed = 15;
+            fw.vy = -15;
+            fw.vx = 0;
+            fireworks.push(fw);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.7) {
+                particles.push(new Particle(e.clientX, e.clientY, Math.random() * 40 + 10));
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.brightness += (Math.random() - 0.5) * 0.1;
+                star.brightness = Math.max(0.2, Math.min(1, star.brightness));
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 200, 150, ${star.brightness * 0.5})`;
+                ctx.fill();
+            });
+
+            fireworks = fireworks.filter(fw => {
+                fw.update();
+                fw.draw();
+                return !fw.exploded || fw.trail.length > 0;
+            });
+
+            particles = particles.filter(p => {
+                p.update();
+                p.draw();
+                return p.life > 0;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        setTimeout(() => {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFirework, i * 300);
+            }
+        }, 500);
+
+        function ignite(e) {
+            e.preventDefault();
+            
+            const btn = e.target;
+            const rect = btn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                const ember = document.createElement('div');
+                ember.className = 'ember';
+                ember.style.left = centerX + 'px';
+                ember.style.top = centerY + 'px';
+                ember.style.setProperty('--ex', (Math.random() - 0.5) * 300 + 'px');
+                ember.style.setProperty('--ey', -Math.random() * 300 - 50 + 'px');
+                document.body.appendChild(ember);
+                setTimeout(() => ember.remove(), 3000);
+            }
+
+            const fw = new Firework(centerX, height, centerY - 200);
+            fw.speed = 20;
+            fw.vy = -20;
+            fw.vx = 0;
+            fireworks.push(fw);
+
+            document.getElementById('intro').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        // ===== GLASS BOX SCROLL REVEAL =====
+        const glassPanels = document.querySelectorAll('.section-light, .section-mid');
+        const glassObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+
+        glassPanels.forEach(panel => glassObserver.observe(panel));
+    </script>
+</body>
+</html>
