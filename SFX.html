@@ -16,12 +16,12 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             color: #fff;
-            overflow-x: hidden;
             background: #000;
         }
         /* ===== NAV BANNER ===== */
@@ -47,7 +47,7 @@
         }
         .nav-link:hover { color: #ffaa33; background: rgba(255,102,0,0.08); }
         .nav-link.active { color: #ffaa33; background: rgba(255,102,0,0.12); border: 1px solid rgba(255,102,0,0.3); }
-		
+
         /* ===== HERO SECTION ===== */
         #hero {
             position: relative;
@@ -60,7 +60,6 @@
             overflow: hidden;
             background: #000;
 			margin-top: 64px;
-  			
         }
 
         #explosion-video {
@@ -97,7 +96,7 @@
             letter-spacing: 0.05em;
             line-height: 0.9;
             color: #fff;
-            text-shadow: 
+            text-shadow:
                 0 0 20px #ff4400,
                 0 0 40px #ff3300,
                 0 0 80px #ff2200,
@@ -114,7 +113,7 @@
             color: #ffaa33;
             margin-top: 0.8rem;
             text-transform: uppercase;
-            text-shadow: 
+            text-shadow:
                 0 0 10px #ff6600,
                 0 0 30px #ff4400,
                 0 0 60px #ff2200;
@@ -146,14 +145,14 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(5px);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(255, 102, 0, 0.3),
                 inset 0 0 20px rgba(255, 102, 0, 0.1);
         }
 
         .cta-button:hover {
             background: rgba(255, 102, 0, 0.2);
-            box-shadow: 
+            box-shadow:
                 0 0 40px rgba(255, 102, 0, 0.6),
                 inset 0 0 30px rgba(255, 102, 0, 0.2);
             color: #ffdd88;
@@ -340,111 +339,128 @@
             margin-top: 5px;
         }
 
-        /* ===== POPUP MODAL ===== */
+        /* ============================================================
+           THEATER VIDEO OVERLAY — the player IS the screen
+           (same setup that works on the Fireworks page)
+           ============================================================ */
         .modal-overlay {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            margin: 0 !important;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 99999 !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 99999;
+            visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.35s ease;
         }
 
         .modal-overlay.active {
-            opacity: 1;
+            visibility: visible;
             pointer-events: all;
         }
 
-        .modal-wrapper {
-            position: relative;
-            width: 90%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            transform: scale(0.92) translateY(16px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-wrapper {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-close {
+        .modal-player {
             position: absolute;
-            top: -50px;
+            top: 0;
             right: 0;
-            width: 42px;
-            height: 42px;
-            background: rgba(10, 10, 10, 0.85);
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+            background: #000;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        /* floating controls — the bar lets taps fall through to the player */
+        .player-bar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .player-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            pointer-events: auto;
+        }
+
+        .player-btn {
+            padding: 11px 16px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1.5px solid #ff6600;
+            color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+            touch-action: manipulation;
+        }
+
+        .player-btn:hover {
+            background: #ff6600;
+            color: #000;
+        }
+
+        .player-close {
+            pointer-events: auto;
+            flex: 0 0 auto;
+            width: 46px;
+            height: 46px;
+            background: rgba(0, 0, 0, 0.7);
             border: 1.5px solid #ff6600;
             color: #ff6600;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            line-height: 1;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 12px rgba(255, 102, 0, 0.25);
+            touch-action: manipulation;
         }
 
-        .modal-close:hover {
+        .player-close:hover {
             background: #ff6600;
             color: #000;
-            transform: rotate(90deg);
-            box-shadow: 0 0 24px rgba(255, 102, 0, 0.7);
         }
 
-        .modal-content {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border: 1.5px solid rgba(255, 102, 0, 0.35);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(255, 80, 0, 0.12);
+        /* While a video is open: pause the page's effects behind the overlay */
+        body.modal-open > :not(.modal-overlay),
+        body.modal-open > :not(.modal-overlay) *,
+        body.modal-open > :not(.modal-overlay) *::before,
+        body.modal-open > :not(.modal-overlay) *::after {
+            text-shadow: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            filter: none !important;
+            animation-play-state: paused !important;
         }
 
-        .modal-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        .modal-fallback-link {
-            display: inline-block;
-            padding: 10px 26px;
-            background: rgba(255, 102, 0, 0.12);
-            border: 2px solid #ff6600;
-            color: #ffaa33;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .modal-fallback-link:hover {
-            background: #ff6600;
-            color: #000;
-            box-shadow: 0 0 30px rgba(255, 102, 0, 0.4);
+        body.modal-open #explosion-video {
+            display: none !important;
         }
 
         /* ===== FOOTER ===== */
@@ -533,10 +549,6 @@
             display: none;
         }
 
-        .view-more-btn.view-less {
-            background: rgba(255, 102, 0, 0.15);
-        }
-
         .view-less-btn {
             padding: 1rem 3rem;
             background: rgba(0, 0, 0, 0.3);
@@ -569,32 +581,34 @@
             .video-grid {
                 grid-template-columns: 1fr;
             }
-			        @media (max-width: 500px) {
+        }
+        @media (max-width: 500px) {
             .nav-inner { height: auto; padding: 12px 0; flex-direction: column; gap: 10px; }
             #hero { margin-top: 100px; }
             .nav-links { gap: 4px; }
             .nav-link { padding: 6px 10px; font-size: 0.6rem; }
+            .player-btn { padding: 9px 12px; font-size: 0.55rem; letter-spacing: 0.08em; }
+            .player-close { width: 42px; height: 42px; font-size: 1.3rem; }
+            .player-bar { padding: 10px; }
         }
     </style>
-<base target="_blank">
-<base target="_blank">
+    <base target="_blank">
 </head>
 <body>
     <!-- ===== NAV BANNER ===== -->
     <nav class="nav-banner">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">Salim's Rahman's Super Sparks</a>
+            <a href="index.html" class="nav-logo" target="_self">Salim's Rahman's Super Sparks</a>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="aromory1.html" class="nav-link">Armory</a>
-                <a href="movie.html" class="nav-link">Movies</a>
-                <a href="fireworks.html" class="nav-link">Fireworks</a>
-                <a href="SFX.html" class="nav-link active">SFX</a>
-                <a href="contactus.html" class="nav-link">Contact Us</a>
+                <a href="index.html" class="nav-link" target="_blank" rel="noopener">Home</a>
+                <a href="aromory1.html" class="nav-link" target="_blank" rel="noopener">Armory</a>
+                <a href="movie.html" class="nav-link" target="_blank" rel="noopener">Movies</a>
+                <a href="fireworks.html" class="nav-link" target="_blank" rel="noopener">Fireworks</a>
+                <a href="SFX.html" class="nav-link active" target="_blank" rel="noopener">SFX</a>
+                <a href="contactus.html" class="nav-link" target="_blank" rel="noopener">Contact Us</a>
             </div>
         </div>
     </nav>
-
 
     <!-- ===== HERO SECTION ===== -->
     <section id="hero">
@@ -603,7 +617,7 @@
             <source src="https://videos.pexels.com/video-files/17807763/17807763-uhd_2560_1440_30fps.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
-        
+
         <div class="hero-content">
             <h1 class="main-title">SPECIAL EFFECTS</h1>
             <p class="sub-title">Pyrotechnics & Movie FX</p>
@@ -727,23 +741,18 @@
         </div>
     </section>
 
-    <!-- ===== POPUP MODAL ===== -->
-    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
-        <div class="modal-wrapper" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal()" aria-label="Close video">×</button>
-            <div class="modal-content">
-                <iframe
-                    id="modal-iframe"
-                    class="modal-iframe"
-                    src=""
-                    title="Video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
-                ></iframe>
+    <!-- ===== THEATER VIDEO OVERLAY ===== -->
+    <div class="modal-overlay" id="modal">
+        <iframe id="modal-player" class="modal-player" src="about:blank" title="Video player"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                allowfullscreen webkitallowfullscreen mozallowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="player-bar">
+            <div class="player-actions">
+                <button class="player-btn" onclick="reloadPlayer()">Reload player</button>
+                <a class="player-btn" id="watch-on-drive" href="#" target="_blank" rel="noopener">Open in Drive ↗</a>
             </div>
-            <a href="#" class="modal-fallback-link" id="watch-on-drive" target="_blank" rel="noopener">Video not loading? Open in Google Drive →</a>
+            <button class="player-close" onclick="closeModal()" aria-label="Close video">×</button>
         </div>
     </div>
 
@@ -753,7 +762,6 @@
     </footer>
 
     <script>
-        // Explosion video background - no canvas needed
         // ===== VIEW MORE / LESS VIDEOS =====
         function showMoreVideos() {
             const hiddenCards = document.querySelectorAll('.video-card.hidden');
@@ -781,9 +789,9 @@
             document.getElementById('viewLessBtn').classList.remove('visible');
 
             // Scroll back to gallery header so user isn't left at empty space
-            document.getElementById('gallery-section').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            document.getElementById('gallery-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
 
@@ -793,9 +801,9 @@
 
             const btn = e && e.currentTarget ? e.currentTarget : (e && e.target ? e.target : document.querySelector('.cta-button'));
             if (!btn) {
-                document.getElementById('gallery-section').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
+                document.getElementById('gallery-section').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
                 return;
             }
@@ -815,64 +823,54 @@
                 setTimeout(() => ember.remove(), 3000);
             }
 
-            document.getElementById('gallery-section').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            document.getElementById('gallery-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
 
-                // Google Drive embeddable preview URLs (file must be shared as "Anyone with the link")
-        const videoEmbedSrc = {
-            '13cdVA_Ev0jYJ7Y-t4vIm1sCbvGh0NjBL': 'https://drive.google.com/file/d/13cdVA_Ev0jYJ7Y-t4vIm1sCbvGh0NjBL/preview',
-            '1M0STe-oII05ZAJhgyKzv4yrg_b-H8W_F': 'https://drive.google.com/file/d/1M0STe-oII05ZAJhgyKzv4yrg_b-H8W_F/preview',
-            '1eXVrK6amsCLQzZb1Ty66RaJqipsGLjl-': 'https://drive.google.com/file/d/1eXVrK6amsCLQzZb1Ty66RaJqipsGLjl-/preview',
-            '1iupe9zMegr4v0T1HrqL0dcdPzrL9ezJp': 'https://drive.google.com/file/d/1iupe9zMegr4v0T1HrqL0dcdPzrL9ezJp/preview',
-            '1i520whKU_YTFj9bYRGu_xGBK_0wcjKKg': 'https://drive.google.com/file/d/1i520whKU_YTFj9bYRGu_xGBK_0wcjKKg/preview',
-            '1kNiAkO_Vc0FV0-U-QymGTnqz-xpSB0wL': 'https://drive.google.com/file/d/1kNiAkO_Vc0FV0-U-QymGTnqz-xpSB0wL/preview',
-            '1CgPqnB9PP5F4MCjZQpO-k94VZzIVX5ir': 'https://drive.google.com/file/d/1CgPqnB9PP5F4MCjZQpO-k94VZzIVX5ir/preview',
-            '103a6vG3U8bOgvRGGJWqefHvvg4TMuu6F': 'https://drive.google.com/file/d/103a6vG3U8bOgvRGGJWqefHvvg4TMuu6F/preview'
-        };
-
-        // ===== MODAL FUNCTIONS =====
+        // ===== THEATER VIDEO PLAYER (same setup as the Fireworks page) =====
+        const modalPlayer = document.getElementById('modal-player');
+        const heroVideo = document.getElementById('explosion-video');
 
         function openModal(fileId) {
             const modal = document.getElementById('modal');
-            const iframe = document.getElementById('modal-iframe');
-
-            iframe.src = videoEmbedSrc[fileId] || `https://drive.google.com/file/d/${fileId}/preview`;
             document.getElementById('watch-on-drive').href = `https://drive.google.com/file/d/${fileId}/view`;
 
+            // free the GPU while watching: pause the hero background video
+            if (heroVideo) heroVideo.pause();
+            document.body.classList.add('modal-open');
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+
+            // load the Drive embed only after the overlay is visible & laid out
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                modalPlayer.src = `https://drive.google.com/file/d/${fileId}/preview`;
+            }));
         }
 
-        function closeModal(e) {
-            // Only close if:
-            // 1. No event (called directly, e.g. from close button or Escape key)
-            // 2. Clicking the overlay background (modal element itself)
-            // 3. Clicking the close button
-            if (e) {
-                const modal = document.getElementById('modal');
-                // e.target is what was actually clicked
-                // If it's not the modal overlay itself, check if it's the close button
-                if (e.target !== modal) {
-                    // Check if the clicked element or its parent is the close button
-                    const closeBtn = e.target.closest('.modal-close');
-                    if (!closeBtn) return;
-                }
-            }
+        function reloadPlayer() {
+            const src = modalPlayer.src;
+            modalPlayer.src = 'about:blank';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                modalPlayer.src = src;
+            }));
+        }
+
+        function closeModal() {
             const modal = document.getElementById('modal');
-            const iframe = document.getElementById('modal-iframe');
             modal.classList.remove('active');
-            iframe.src = '';
-            document.body.style.overflow = '';
+            modalPlayer.src = 'about:blank'; // stop playback (never '' — that reloads THIS page inside the iframe!)
+            document.body.classList.remove('modal-open');
+            document.documentElement.style.overflow = '';
+            if (heroVideo) heroVideo.play().catch(function() {});
         }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
 
-            // Attach event listeners after DOM loads
+        // Attach event listeners after DOM loads
         document.addEventListener('DOMContentLoaded', function() {
             const viewBtn = document.getElementById('viewBtn');
             if (viewBtn) {
