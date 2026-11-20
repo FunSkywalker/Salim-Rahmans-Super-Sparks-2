@@ -396,21 +396,31 @@
         }
 
         /* ============================================================
-           POPUP MODAL — NATIVE VIDEO PLAYER
-           The Google Drive preview IFRAME is gone entirely. A native
-           <video> element streams the file straight from Drive's
-           download endpoint. Native video layers are handled natively
-           by every mobile browser, so the "audio plays but screen is
-           black" bug cannot happen anymore. The thumbnail is used as
-           the poster so the frame is never blank.
+           THEATER VIDEO OVERLAY — the player IS the screen
+           ------------------------------------------------------------
+           Why the previous version showed only a close button:
+           Google switched OFF direct file links (uc?export=download)
+           in Jan 2024 — those URLs 403, so a plain <video> tag had
+           nothing to play. The Drive "Embed item" iframe is the only
+           player Google still allows.
+
+           Why phones sometimes show black video inside it: the Drive
+           preview player needs third-party cookies and its own
+           compositing layer — small boxes + animated ancestors make
+           it drop the picture. So here the iframe fills the entire
+           screen with zero animation, zero box-sizing tricks and
+           zero clipping around it.
            ============================================================ */
         .modal-overlay {
             position: fixed;
-            inset: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
             z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             visibility: hidden;
             pointer-events: none;
         }
@@ -420,131 +430,97 @@
             pointer-events: all;
         }
 
-        /* the only animated element in the modal — it does NOT contain the video */
-        .modal-backdrop {
+        .modal-player {
             position: absolute;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            background: rgba(0, 0, 0, 0.96);
-            opacity: 0;
-            transition: opacity 0.35s ease;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+            background: #000;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
 
-        .modal-overlay.active .modal-backdrop {
-            opacity: 1;
-        }
-
-        .modal-wrapper {
-            position: relative;
-            width: 92%;
-            max-width: min(1000px, max(280px, calc((100vh - 170px) * 16 / 9)));
-            max-width: min(1000px, max(280px, calc((100dvh - 170px) * 16 / 9)));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .modal-close {
+        /* floating controls — the bar lets taps fall through to the player */
+        .player-bar {
             position: absolute;
-            top: -50px;
+            top: 0;
             right: 0;
-            width: 42px;
-            height: 42px;
-            background: rgba(10, 10, 10, 0.85);
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .player-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            pointer-events: auto;
+        }
+
+        .player-btn {
+            padding: 11px 16px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1.5px solid #ff6600;
+            color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+            touch-action: manipulation;
+        }
+
+        .player-btn:hover {
+            background: #ff6600;
+            color: #000;
+        }
+
+        .player-close {
+            pointer-events: auto;
+            flex: 0 0 auto;
+            width: 46px;
+            height: 46px;
+            background: rgba(0, 0, 0, 0.7);
             border: 1.5px solid #ff6600;
             color: #ff6600;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            line-height: 1;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            z-index: 5;
+            touch-action: manipulation;
         }
 
-        .modal-close:hover {
-            background: #ff6600;
-            color: #000;
-            transform: rotate(90deg);
-        }
-
-        .modal-content {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background: #000;
-            outline: 1.5px solid rgba(255, 102, 0, 0.35);
-        }
-
-        /* native video player — no iframe, works everywhere */
-        .modal-video {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            background: #000;
-            object-fit: contain;
-        }
-
-        .modal-fallback-link {
-            display: inline-block;
-            padding: 10px 26px;
-            background: rgba(255, 102, 0, 0.12);
-            border: 2px solid #ff6600;
-            color: #ffaa33;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .modal-fallback-link:hover {
+        .player-close:hover {
             background: #ff6600;
             color: #000;
         }
 
-        .modal-error-note {
-            display: none;
-            max-width: 560px;
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #ffaa33;
+        @media (max-width: 500px) {
+            .player-btn { padding: 9px 12px; font-size: 0.55rem; letter-spacing: 0.08em; }
+            .player-close { width: 42px; height: 42px; font-size: 1.3rem; }
+            .player-bar { padding: 10px; }
         }
 
-        /* landscape phones / short windows: fit by height, close button over video */
-        @media (max-height: 560px) {
-            .modal-wrapper {
-                max-width: min(1000px, max(260px, calc((100vh - 90px) * 16 / 9)));
-                max-width: min(1000px, max(260px, calc((100dvh - 90px) * 16 / 9)));
-            }
-            .modal-close {
-                top: 10px;
-                right: 10px;
-            }
-            .modal-fallback-link {
-                padding: 8px 18px;
-                font-size: 0.65rem;
-            }
-        }
-
-        /* While a video is open: pause the page's effects (saves battery/thermals
-           on phones during playback) */
+        /* While a video is open: pause the page's effects behind the overlay */
         body.modal-open > :not(.modal-overlay),
         body.modal-open > :not(.modal-overlay) *,
         body.modal-open > :not(.modal-overlay) *::before,
@@ -808,16 +784,18 @@
         <p>© 2026 SUPER SPARKS SPECIAL EFFECTS (M) SDN BHD. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- ===== POPUP MODAL (native video player) ===== -->
-    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
-        <div class="modal-backdrop" onclick="closeModal(event)"></div>
-        <div class="modal-wrapper" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closeModal()" aria-label="Close video">×</button>
-            <div class="modal-content">
-                <video id="modal-video" class="modal-video" controls playsinline webkit-playsinline x5-playsinline preload="metadata"></video>
+    <!-- ===== THEATER VIDEO OVERLAY ===== -->
+    <div class="modal-overlay" id="modal">
+        <iframe id="modal-player" class="modal-player" src="about:blank" title="Video player"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                allowfullscreen webkitallowfullscreen mozallowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="player-bar">
+            <div class="player-actions">
+                <button class="player-btn" onclick="reloadPlayer()">Reload player</button>
+                <a class="player-btn" id="watch-on-drive" href="#" target="_blank" rel="noopener">Open in Drive ↗</a>
             </div>
-            <a href="#" class="modal-fallback-link" id="watch-on-drive" target="_blank" rel="noopener">Video not loading? Open in Google Drive →</a>
-            <p class="modal-error-note" id="video-error">Stream failed — use the link above to watch on Google Drive.</p>
+            <button class="player-close" onclick="closeModal()" aria-label="Close video">×</button>
         </div>
     </div>
 
@@ -934,7 +912,7 @@
             fireworks.push(new Firework(x, height, targetY));
         }
 
-        // ===== SHOW ENGINE: pausable (saves battery while video plays) =====
+        // ===== SHOW ENGINE: pausable (frees the GPU while video plays) =====
         let rafId = null;
         let spawnTimer = null;
         let heroVisible = true;
@@ -1031,70 +1009,37 @@
             document.getElementById('gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // ===== NATIVE VIDEO PLAYER (replaces the Drive iframe) =====
-        // Streams the file directly from Google Drive's download endpoint.
-        // Primary + fallback URL; the Drive page link stays visible as last resort.
-        const modalVideo = document.getElementById('modal-video');
-        const videoError = document.getElementById('video-error');
-        let currentFileId = null;
-        let sourceAttempt = 0;
-
-        function driveStreamUrls(id) {
-            return [
-                `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`,
-                `https://drive.google.com/uc?export=download&confirm=t&id=${id}`
-            ];
-        }
-
-        modalVideo.addEventListener('error', () => {
-            sourceAttempt++;
-            if (currentFileId && sourceAttempt < 2) {
-                modalVideo.src = driveStreamUrls(currentFileId)[sourceAttempt];
-                modalVideo.load();
-            } else {
-                videoError.style.display = 'block';
-            }
-        });
+        // ===== THEATER VIDEO PLAYER =====
+        const modalPlayer = document.getElementById('modal-player');
 
         function openModal(fileId) {
-            currentFileId = fileId;
-            sourceAttempt = 0;
-            videoError.style.display = 'none';
-
             const modal = document.getElementById('modal');
-            const fallbackLink = document.getElementById('watch-on-drive');
+            document.getElementById('watch-on-drive').href = `https://drive.google.com/file/d/${fileId}/view`;
 
-            fallbackLink.href = `https://drive.google.com/file/d/${fileId}/view`;
-            // thumbnail as poster = instant picture, never a black box
-            modalVideo.poster = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
-            modalVideo.src = driveStreamUrls(fileId)[0];
-            modalVideo.load();
-
-            // pause the fireworks engine while watching
+            // free the GPU while watching
             stopShow();
             document.body.classList.add('modal-open');
-
             modal.classList.add('active');
             document.documentElement.style.overflow = 'hidden';
 
-            // the card tap counts as a user gesture, so playback can start
-            const playPromise = modalVideo.play();
-            if (playPromise && playPromise.catch) playPromise.catch(() => {});
+            // load the Drive embed only after the overlay is visible & laid out
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                modalPlayer.src = `https://drive.google.com/file/d/${fileId}/preview`;
+            }));
         }
 
-        function closeModal(e) {
-            if (e && e.target) {
-                const t = e.target;
-                const allowed = (t.id === 'modal') || (t.classList && t.classList.contains('modal-backdrop'));
-                if (!allowed) return;
-            }
+        function reloadPlayer() {
+            const src = modalPlayer.src;
+            modalPlayer.src = 'about:blank';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                modalPlayer.src = src;
+            }));
+        }
+
+        function closeModal() {
             const modal = document.getElementById('modal');
             modal.classList.remove('active');
-            modalVideo.pause();
-            modalVideo.removeAttribute('src');
-            modalVideo.removeAttribute('poster');
-            modalVideo.load();
-            currentFileId = null;
+            modalPlayer.src = 'about:blank'; // stop playback (never '' — that reloads THIS page inside the iframe!)
             document.body.classList.remove('modal-open');
             document.documentElement.style.overflow = '';
             if (heroVisible && !document.hidden) startShow();
