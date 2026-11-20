@@ -16,12 +16,12 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             color: #fff;
-            overflow-x: hidden;
             background: #000;
         }
         /* ===== NAV BANNER ===== */
@@ -60,7 +60,6 @@
             overflow: hidden;
             background: #000;
 			margin-top: 64px;
-
         }
 
         #fireworks-canvas {
@@ -396,56 +395,67 @@
             text-transform: uppercase;
         }
 
-        /* ===== POPUP MODAL =====
-           MOBILE VIDEO FIX:
-           1) backdrop-filter on the overlay and a permanent transform on .modal-wrapper
-              are known iOS/Android WebView layer bugs: the iframe keeps playing audio but
-              its picture layer is dropped. Both removed (opacity-only animation now).
-           2) aspect-ratio + overflow:hidden can blank/clamp an iframe on small screens;
-              replaced with the universally supported padding-top 16:9 trick, and the
-              iframe gets its own border-radius instead of being clipped by a parent.
-           3) On short/landscape viewports a 16:9 stage at 92% width is TALLER than the
-              screen, so the video played off-screen. The wrapper width is now capped to
-              the available height so the whole frame always fits. */
+        /* ============================================================
+           POPUP MODAL — MOBILE VIDEO FIX (round 2)
+           Root causes of "audio plays, picture is black" on phones:
+           A) GPU layer starvation: the fireworks canvas repaints a
+              full-screen layer at 60fps even behind the modal. Mobile
+              WebKit drops the iframe's video layer when layers compete.
+              -> JS pauses the engine + CSS hides the canvas on open.
+           B) ANY backdrop-filter / huge text-shadow / box-shadow in the
+              document is a known WebKit blank-video trigger.
+              -> everything outside the modal is neutralized while open.
+           C) Opacity animation on an ancestor while the video layer
+              initialises leaves iOS video layers permanently black.
+              -> the iframe subtree NEVER animates: only the separate
+                 .modal-backdrop fades; the wrapper appears instantly.
+           D) border-radius / overflow / shadows on the iframe's box clip
+              the punched-out native video layer on iOS.
+              -> video box is plain; its frame glow is an outline (never
+                 clips), and the iframe is force-rebuilt after load.
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.96);
             z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
         }
 
         .modal-overlay.active {
-            opacity: 1;
             visibility: visible;
             pointer-events: all;
-            transition: opacity 0.35s ease, visibility 0s linear 0s;
         }
 
+        /* the only animated element in the modal — it does NOT contain the iframe */
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.96);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .modal-overlay.active .modal-backdrop {
+            opacity: 1;
+        }
+
+        /* wrapper: no transform, no opacity, no filter, no transition */
         .modal-wrapper {
             position: relative;
             width: 92%;
-            max-width: 1000px;
-            /* Height-aware cap: 170px reserves the floating close button (50), the
-               fallback link (58) and breathing room. Falls back to vh, then dvh. */
             max-width: min(1000px, max(280px, calc((100vh - 170px) * 16 / 9)));
             max-width: min(1000px, max(280px, calc((100dvh - 170px) * 16 / 9)));
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 14px;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-
-        .modal-overlay.active .modal-wrapper {
-            opacity: 1;
         }
 
         .modal-close {
@@ -464,7 +474,6 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
-            box-shadow: 0 0 12px rgba(255, 102, 0, 0.25);
             z-index: 5;
         }
 
@@ -472,18 +481,15 @@
             background: #ff6600;
             color: #000;
             transform: rotate(90deg);
-            box-shadow: 0 0 24px rgba(255, 102, 0, 0.7);
         }
 
+        /* plain box: NO radius / overflow / shadow / filter — outline is safe */
         .modal-content {
             position: relative;
             width: 100%;
-            /* exact 16:9 box — works on every mobile browser */
             padding-top: 56.25%;
             background: #000;
-            border: 1.5px solid rgba(255, 102, 0, 0.35);
-            border-radius: 10px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(255, 80, 0, 0.12);
+            outline: 1.5px solid rgba(255, 102, 0, 0.35);
         }
 
         .modal-iframe {
@@ -495,9 +501,11 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            border: 0;
             display: block;
-            border-radius: 9px;
+            /* own layer for the video surface (helps mobile compositing) */
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
 
         .modal-fallback-link {
@@ -519,11 +527,9 @@
         .modal-fallback-link:hover {
             background: #ff6600;
             color: #000;
-            box-shadow: 0 0 30px rgba(255, 102, 0, 0.4);
         }
 
-        /* Short screens (landscape phones, small windows): move the close button
-           over the video corner and recompute the cap with less reserved space */
+        /* landscape phones / short windows: fit by height, close button over video */
         @media (max-height: 560px) {
             .modal-wrapper {
                 max-width: min(1000px, max(260px, calc((100vh - 90px) * 16 / 9)));
@@ -533,6 +539,29 @@
                 top: 10px;
                 right: 10px;
             }
+            .modal-fallback-link {
+                padding: 8px 18px;
+                font-size: 0.65rem;
+            }
+        }
+
+        /* ====== While a video is open: kill every layer effect on the page
+           behind the modal (invisible to the user, but stops WebKit from
+           dropping the iframe's video layer) ====== */
+        body.modal-open > :not(.modal-overlay),
+        body.modal-open > :not(.modal-overlay) *,
+        body.modal-open > :not(.modal-overlay) *::before,
+        body.modal-open > :not(.modal-overlay) *::after {
+            text-shadow: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            filter: none !important;
+            animation-play-state: paused !important;
+        }
+
+        body.modal-open #fireworks-canvas {
+            display: none !important;
         }
 
         /* ===== FOOTER ===== */
@@ -784,6 +813,7 @@
 
     <!-- ===== POPUP MODAL ===== -->
     <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-backdrop" onclick="closeModal(event)"></div>
         <div class="modal-wrapper" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal()" aria-label="Close video">×</button>
             <div class="modal-content">
@@ -906,7 +936,21 @@
             fireworks.push(new Firework(x, height, targetY));
         }
 
-        setInterval(() => { if (fireworks.length < 5) createFirework(); }, 800);
+        // ===== SHOW ENGINE: pausable (mobile video fix) =====
+        let rafId = null;
+        let spawnTimer = null;
+        let heroVisible = true;
+
+        function startShow() {
+            if (rafId !== null) return;
+            spawnTimer = setInterval(() => { if (fireworks.length < 5) createFirework(); }, 800);
+            rafId = requestAnimationFrame(animate);
+        }
+
+        function stopShow() {
+            if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+            if (spawnTimer !== null) { clearInterval(spawnTimer); spawnTimer = null; }
+        }
 
         canvas.addEventListener('click', (e) => {
             const fw = new Firework(e.clientX, height, e.clientY);
@@ -931,10 +975,25 @@
             });
             fireworks = fireworks.filter(fw => { fw.update(); fw.draw(); return !fw.exploded || fw.trail.length > 0; });
             particles = particles.filter(p => { p.update(); p.draw(); return p.life > 0; });
-            requestAnimationFrame(animate);
+            rafId = requestAnimationFrame(animate);
         }
-        animate();
+        startShow();
         setTimeout(() => { for (let i = 0; i < 3; i++) setTimeout(createFirework, i * 300); }, 500);
+
+        // Pause the canvas engine whenever a video is open, the hero is off-screen,
+        // or the tab is hidden — frees GPU layers so mobile shows video pixels.
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                heroVisible = entries[0].isIntersecting;
+                if (heroVisible && !document.hidden && !document.body.classList.contains('modal-open')) startShow();
+                else stopShow();
+            }, { threshold: 0 }).observe(document.getElementById('hero'));
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stopShow();
+            else if (heroVisible && !document.body.classList.contains('modal-open')) startShow();
+        });
 
         // ===== VIEW MORE / LESS =====
         function showMoreVideos() {
@@ -987,29 +1046,55 @@
             '1z_TLDK-FwGMkoUpwNbBoNBkGp6Wl2CVH': 'https://drive.google.com/file/d/1z_TLDK-FwGMkoUpwNbBoNBkGp6Wl2CVH/preview'
         };
 
+        // ===== MOBILE VIDEO LAYER REBUILD HACK =====
+        // Nudging the iframe's width forces Safari/Chrome to re-composite the
+        // video surface inside it — the standard cure for black-video-in-iframe.
+        const modalIframe = document.getElementById('modal-iframe');
+        function forceLayerRebuild() {
+            modalIframe.style.width = 'calc(100% - 1px)';
+            requestAnimationFrame(() => { modalIframe.style.width = '100%'; });
+        }
+        modalIframe.addEventListener('load', () => {
+            forceLayerRebuild();
+            setTimeout(forceLayerRebuild, 1000);
+        });
+
         // ===== MODAL FUNCTIONS =====
         function openModal(fileId) {
             const modal = document.getElementById('modal');
             const iframe = document.getElementById('modal-iframe');
             const fallbackLink = document.getElementById('watch-on-drive');
 
-            // Build the embed URL – ensure it's a valid preview
-            const embedUrl = videoEmbedSrc[fileId] || `https://drive.google.com/file/d/${fileId}/preview`;
-            iframe.src = embedUrl;
             fallbackLink.href = `https://drive.google.com/file/d/${fileId}/view`;
 
-            // Show modal
+            // Free the GPU: stop the fireworks engine and neutralize page effects
+            stopShow();
+            document.body.classList.add('modal-open');
+
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+
+            // Set src only AFTER the modal is visible and laid out, so the video
+            // layer is never initialised under a hidden/fading ancestor.
+            const embedUrl = videoEmbedSrc[fileId] || `https://drive.google.com/file/d/${fileId}/preview`;
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                iframe.src = embedUrl;
+            }));
         }
 
         function closeModal(e) {
-            if (e && e.target !== document.getElementById('modal')) return;
+            if (e && e.target) {
+                const t = e.target;
+                const allowed = (t.id === 'modal') || (t.classList && t.classList.contains('modal-backdrop'));
+                if (!allowed) return;
+            }
             const modal = document.getElementById('modal');
             const iframe = document.getElementById('modal-iframe');
             modal.classList.remove('active');
             iframe.src = ''; // stop video when closed
-            document.body.style.overflow = '';
+            document.body.classList.remove('modal-open');
+            document.documentElement.style.overflow = '';
+            if (heroVisible && !document.hidden) startShow();
         }
 
         document.addEventListener('keydown', (e) => {
