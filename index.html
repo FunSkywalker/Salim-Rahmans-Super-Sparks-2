@@ -1,9 +1,9 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salim's Rahman's Super Sparks Special Effects</title>
+    <title>Fireworks | Super Sparks Special Effects</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,94 +16,37 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            overflow-x: hidden;
-            background: #06070a;
+            color: #fff;
+            background: #000;
         }
-
-        /* ===== BACKGROUND VIDEO ===== */
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 0;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        #bg-video-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(ellipse at center, rgba(6,7,10,0.35) 0%, rgba(6,7,10,0.9) 100%);
-            z-index: 0;
-            pointer-events: none;
-        }
-
         /* ===== NAV BANNER ===== */
         .nav-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(6,7,10,0.72);
-            backdrop-filter: blur(18px) saturate(140%);
-            -webkit-backdrop-filter: blur(18px) saturate(140%);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding: 0 5vw;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1a1a1a; padding: 0 5vw;
         }
         .nav-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
         }
         .nav-logo {
-            font-family: 'Black Ops One', cursive;
-            font-size: 1.3rem;
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-shadow: 0 0 10px #ff4400, 0 0 20px #ff2200;
-            white-space: nowrap;
+            font-family: 'Black Ops One', cursive; font-size: 1.3rem; color: #fff;
+            text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em;
+            text-shadow: 0 0 10px #ff4400, 0 0 20px #ff2200; white-space: nowrap;
         }
-        .nav-links {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
         .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #888; text-decoration: none;
+            padding: 8px 14px; border-radius: 6px; transition: all 0.3s ease; white-space: nowrap;
         }
-        .nav-link:hover {
-            color: #ffaa33;
-            background: rgba(255,102,0,0.08);
-        }
-        .nav-link.active {
-            color: #ffaa33;
-            background: rgba(255,102,0,0.12);
-            border: 1px solid rgba(255,102,0,0.3);
-        }
+        .nav-link:hover { color: #ffaa33; background: rgba(255,102,0,0.08); }
+        .nav-link.active { color: #ffaa33; background: rgba(255,102,0,0.12); border: 1px solid rgba(255,102,0,0.3); }
 
         /* ===== HERO SECTION ===== */
         #hero {
@@ -115,29 +58,17 @@
             align-items: center;
             text-align: center;
             overflow: hidden;
-            margin-top: 64px;
-        }
-
-        #hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(to bottom, transparent, #06070a);
-            z-index: 5;
-            pointer-events: none;
+            background: #000;
+			margin-top: 64px;
         }
 
         #fireworks-canvas {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: all;
         }
 
         .hero-overlay {
@@ -146,7 +77,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, transparent 10%, rgba(6,7,10,0.55) 100%);
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.5) 100%);
             z-index: 2;
             pointer-events: none;
         }
@@ -156,26 +87,15 @@
             z-index: 10;
         }
 
-        .pre-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(0.9rem, 2.5vw, 1.4rem);
-            font-weight: 700;
-            letter-spacing: 0.4em;
-            color: #ffe4c4;
-            margin-bottom: 0.6rem;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px #ff6600, 0 0 30px #ff4400;
-        }
-
         .main-title {
             font-family: 'Black Ops One', cursive;
-            font-size: clamp(4rem, 14vw, 12rem);
+            font-size: clamp(3.5rem, 12vw, 9rem);
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             line-height: 0.9;
             color: #fff;
-            text-shadow: 
+            text-shadow:
                 0 0 20px #ff4400,
                 0 0 40px #ff3300,
                 0 0 80px #ff2200,
@@ -186,27 +106,16 @@
 
         .sub-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1rem, 3vw, 2rem);
+            font-size: clamp(1.2rem, 3.5vw, 2.5rem);
             font-weight: 700;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.5em;
             color: #ffaa33;
             margin-top: 0.8rem;
             text-transform: uppercase;
-            text-shadow: 
+            text-shadow:
                 0 0 10px #ff6600,
                 0 0 30px #ff4400,
                 0 0 60px #ff2200;
-        }
-
-        .tagline {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(1rem, 2.2vw, 1.5rem);
-            font-weight: 500;
-            letter-spacing: 0.4em;
-            color: #ffe4c4;
-            margin-top: 2rem;
-            text-transform: uppercase;
-            opacity: 0.95;
         }
 
         .divider {
@@ -220,9 +129,9 @@
         .cta-button {
             margin-top: 3rem;
             padding: 1.2rem 4rem;
-            background: rgba(255, 102, 0, 0.1);
-            border: 1px solid rgba(255, 102, 0, 0.45);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff6600;
+            color: #ffaa33;
             font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
             font-weight: 700;
@@ -234,20 +143,18 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 
-                0 0 20px rgba(255, 102, 0, 0.18),
-                inset 0 0 20px rgba(255, 102, 0, 0.06);
+            backdrop-filter: blur(5px);
+            box-shadow:
+                0 0 20px rgba(255, 102, 0, 0.3),
+                inset 0 0 20px rgba(255, 102, 0, 0.1);
         }
 
         .cta-button:hover {
-            background: rgba(255, 102, 0, 0.22);
-            box-shadow: 
-                0 0 40px rgba(255, 102, 0, 0.45),
-                inset 0 0 30px rgba(255, 102, 0, 0.18);
-            color: #fff;
+            background: rgba(255, 102, 0, 0.2);
+            box-shadow:
+                0 0 40px rgba(255, 102, 0, 0.6),
+                inset 0 0 30px rgba(255, 102, 0, 0.2);
+            color: #ffdd88;
             border-color: #ffaa33;
             transform: translateY(-2px);
         }
@@ -259,7 +166,7 @@
             transform: translateX(-50%);
             z-index: 10;
             animation: bounce 2s infinite;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         .scroll-indicator span {
@@ -295,393 +202,382 @@
             100% { opacity: 0; top: 30px; }
         }
 
-        #content-wrapper {
+        /* ===== VIDEO GALLERY SECTION ===== */
+        #gallery-section {
             position: relative;
             z-index: 10;
-            background: transparent;
+            background: #0a0a0a;
+            padding: 80px 20px;
         }
 
-        /* ===== GLASS BOX SCROLL PANELS (cmpaidetector-style: deep near-black glass, crisp border, generous radius) ===== */
-        .section-light,
-        .section-mid {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-            opacity: 0;
-            transform: translateY(50px) scale(0.98);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
-        .section-light.in-view,
-        .section-mid.in-view {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+        .gallery-title {
+            font-family: 'Black Ops One', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 20px #ff6600;
         }
 
-        .section-light > .section,
-        .section-mid > .section {
-            background: rgba(12, 14, 20, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
-            backdrop-filter: blur(28px) saturate(150%);
-            -webkit-backdrop-filter: blur(28px) saturate(150%);
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.55),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            padding: 70px 60px;
-            max-width: none;
-            margin: 0;
-            position: relative;
-            overflow: hidden;
+        .gallery-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: #ffaa33;
+            letter-spacing: 0.3em;
+            margin-top: 1rem;
+            text-transform: uppercase;
         }
 
-        .section-light > .section::before,
-        .section-mid > .section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        }
-
-        .section-mid > .section {
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.55),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 0 0 rgba(255, 102, 0, 0);
-            transition: box-shadow 1.2s ease;
-        }
-        .section-mid.in-view > .section {
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.55),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 0 70px rgba(255, 102, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .section-light > .section,
-            .section-mid > .section {
-                padding: 45px 26px;
-                border-radius: 20px;
-            }
-            .section-light,
-            .section-mid {
-                margin: 36px auto;
-            }
-        }
-
-        .section {
-            position: relative;
-            z-index: 10;
-            padding: 120px 20px;
-            max-width: 1200px;
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .section-header {
-            margin-bottom: 4rem;
+        .video-card {
+            position: relative;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            aspect-ratio: 16 / 9;
         }
 
-        .section-number {
+        .video-card:hover {
+            border-color: #ff6600;
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-card:hover .video-thumbnail {
+            opacity: 1;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .video-card:hover .video-overlay {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .play-button {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 102, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.5);
+        }
+
+        .video-card:hover .play-button {
+            transform: scale(1.1);
+            background: #ff6600;
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 22px solid #fff;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .video-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #ff6600;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .section-title {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: 1rem;
             font-weight: 700;
             color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -16px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: #ff6600;
-            border-radius: 2px;
-        }
-
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,102,0,0.35), transparent);
-            margin: 0 auto 0;
-            max-width: 800px;
-            opacity: 0.7;
-        }
-
-        #intro {
-            padding-top: 140px;
-        }
-
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        .intro-card {
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.09);
-            padding: 2.5rem;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-
-        .intro-card:hover {
-            border-color: rgba(255,102,0,0.35);
-            box-shadow: 0 10px 40px rgba(255,102,0,0.08);
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.07);
-        }
-
-        .intro-card h3 {
-            font-family: 'Inter', sans-serif;
-            color: #ffaa33;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
 
-        .intro-card p {
-            color: rgba(255,255,255,0.85);
-            line-height: 1.8;
+        .video-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        /* ===== STATS SECTION (bottom) ===== */
+        #stats-section {
+            position: relative;
+            z-index: 10;
+            background: #0a0a0a;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .stats-box {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            background: linear-gradient(145deg, #111, #0a0a0a);
+            border: 2px solid rgba(255, 102, 0, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.15), inset 0 0 30px rgba(255, 102, 0, 0.05);
+            transition: all 0.4s ease;
+        }
+
+        .stats-box:hover {
+            border-color: #ff6600;
+            box-shadow: 0 0 60px rgba(255, 102, 0, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .stats-number {
+            font-family: 'Black Ops One', cursive;
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 400;
+            color: #ffaa33;
+            text-shadow: 0 0 30px #ff6600, 0 0 60px #ff4400;
+            line-height: 1;
+            letter-spacing: 0.05em;
+        }
+
+        .stats-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 15px;
+            text-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+        }
+
+        .stats-sub {
+            font-family: 'Inter', sans-serif;
             font-size: 1rem;
-            font-weight: 400;
+            color: #888;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
+            text-transform: uppercase;
         }
 
-        #writeup {
-            background: transparent;
-        }
-
-        .writeup-content {
-            color: rgba(255,255,255,0.85);
-            line-height: 1.9;
-            font-size: 1.05rem;
-            font-weight: 400;
-        }
-
-        .writeup-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .highlight-box {
-            background: rgba(255,255,255,0.045);
-            border-left: 3px solid #ff6600;
-            padding: 2rem 2.5rem;
-            margin: 2.5rem 0;
-            border-radius: 0 16px 16px 0;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255,255,255,0.09);
-            border-right: 1px solid rgba(255,255,255,0.09);
-            border-bottom: 1px solid rgba(255,255,255,0.09);
-        }
-
-        .highlight-box p {
-            margin: 0;
-            color: #fff;
-            font-weight: 500;
-            font-style: italic;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        #services {
-            background: transparent;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.2rem;
-            margin-top: 2rem;
-        }
-
-        .service-item {
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.09);
-            padding: 1.4rem 1.8rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            transition: all 0.3s ease;
-            cursor: default;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-
-        .service-item:hover {
-            background: rgba(255,102,0,0.1);
-            border-color: rgba(255,102,0,0.3);
-            transform: translateX(8px);
-        }
-
-        .service-item:hover .service-text {
-            color: #fff;
-        }
-
-        .service-item:hover .service-icon {
-            background: rgba(255,102,0,0.2);
-            color: #ffaa33;
-            border-color: rgba(255,102,0,0.4);
-        }
-
-        .service-icon {
-            width: 44px;
-            height: 44px;
-            background: rgba(255,255,255,0.07);
-            color: #ffaa33;
-            border-radius: 10px;
+        /* ============================================================
+           POPUP MODAL — NATIVE VIDEO PLAYER
+           The Google Drive preview IFRAME is gone entirely. A native
+           <video> element streams the file straight from Drive's
+           download endpoint. Native video layers are handled natively
+           by every mobile browser, so the "audio plays but screen is
+           black" bug cannot happen anymore. The thumbnail is used as
+           the poster so the frame is never blank.
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            visibility: hidden;
+            pointer-events: none;
         }
 
-        .service-text {
-            font-family: 'Inter', sans-serif;
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            transition: all 0.3s ease;
+        .modal-overlay.active {
+            visibility: visible;
+            pointer-events: all;
         }
 
-        #other-services {
-            background: transparent;
-        }
-
-        .other-services-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .other-service-item {
-            padding: 1.2rem 1.5rem;
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.09);
-            border-radius: 12px;
-            color: rgba(255,255,255,0.85);
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 3rem;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-
-        .other-service-item::before {
-            content: '—';
+        /* the only animated element in the modal — it does NOT contain the video */
+        .modal-backdrop {
             position: absolute;
-            left: 1.2rem;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.96);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .modal-overlay.active .modal-backdrop {
+            opacity: 1;
+        }
+
+        .modal-wrapper {
+            position: relative;
+            width: 92%;
+            max-width: min(1000px, max(280px, calc((100vh - 170px) * 16 / 9)));
+            max-width: min(1000px, max(280px, calc((100dvh - 170px) * 16 / 9)));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 42px;
+            height: 42px;
+            background: rgba(10, 10, 10, 0.85);
+            border: 1.5px solid #ff6600;
             color: #ff6600;
-            font-weight: 700;
-        }
-
-        .other-service-item:hover {
-            background: rgba(255,102,0,0.1);
-            border-color: rgba(255,102,0,0.3);
-            color: #fff;
-            transform: translateX(5px);
-        }
-
-        .other-service-item:hover::before {
-            color: #ffaa33;
-        }
-
-        #company-details {
-            padding-bottom: 100px;
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .detail-card {
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.09);
-            padding: 2rem;
-            border-radius: 16px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: all 0.3s ease;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            z-index: 5;
         }
 
-        .detail-card:hover {
-            border-color: rgba(255,102,0,0.35);
-            box-shadow: 0 8px 30px rgba(255,102,0,0.08);
-            background: rgba(255,255,255,0.07);
+        .modal-close:hover {
+            background: #ff6600;
+            color: #000;
+            transform: rotate(90deg);
         }
 
-        .detail-card h4 {
-            font-family: 'Inter', sans-serif;
+        .modal-content {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+            outline: 1.5px solid rgba(255, 102, 0, 0.35);
+        }
+
+        /* native video player — no iframe, works everywhere */
+        .modal-video {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #000;
+            object-fit: contain;
+        }
+
+        .modal-fallback-link {
+            display: inline-block;
+            padding: 10px 26px;
+            background: rgba(255, 102, 0, 0.12);
+            border: 2px solid #ff6600;
             color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            margin-bottom: 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
 
-        .detail-card p {
-            color: rgba(255,255,255,0.85);
-            line-height: 1.7;
-            font-size: 0.95rem;
-            font-weight: 400;
+        .modal-fallback-link:hover {
+            background: #ff6600;
+            color: #000;
         }
 
-        .detail-card .label {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        footer {
-            background: rgba(6,7,10,0.85);
-            padding: 50px 20px;
+        .modal-error-note {
+            display: none;
+            max-width: 560px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.09);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            position: relative;
-            z-index: 10;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #ffaa33;
+        }
+
+        /* landscape phones / short windows: fit by height, close button over video */
+        @media (max-height: 560px) {
+            .modal-wrapper {
+                max-width: min(1000px, max(260px, calc((100vh - 90px) * 16 / 9)));
+                max-width: min(1000px, max(260px, calc((100dvh - 90px) * 16 / 9)));
+            }
+            .modal-close {
+                top: 10px;
+                right: 10px;
+            }
+            .modal-fallback-link {
+                padding: 8px 18px;
+                font-size: 0.65rem;
+            }
+        }
+
+        /* While a video is open: pause the page's effects (saves battery/thermals
+           on phones during playback) */
+        body.modal-open > :not(.modal-overlay),
+        body.modal-open > :not(.modal-overlay) *,
+        body.modal-open > :not(.modal-overlay) *::before,
+        body.modal-open > :not(.modal-overlay) *::after {
+            text-shadow: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            filter: none !important;
+            animation-play-state: paused !important;
+        }
+
+        body.modal-open #fireworks-canvas {
+            display: none !important;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #000000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #222;
         }
 
         footer p {
-            color: rgba(255,255,255,0.75);
-            font-size: 0.85rem;
+            color: #444;
+            font-size: 0.8rem;
             letter-spacing: 0.15em;
             font-weight: 500;
             text-transform: uppercase;
         }
 
+        /* Ember effect */
         .ember {
             position: fixed;
             width: 3px;
@@ -699,50 +595,119 @@
             100% { transform: translate(var(--ex), var(--ey)) scale(0); opacity: 0; }
         }
 
+        .video-card.hidden {
+            display: none;
+        }
+
+        .video-card.hidden.show {
+            display: block;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .view-more-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .view-more-btn {
+            padding: 1rem 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff6600;
+            color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+        }
+
+        .view-more-btn:hover {
+            background: rgba(255, 102, 0, 0.2);
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.6);
+            color: #ffdd88;
+            transform: translateY(-2px);
+        }
+
+        .view-more-btn.hidden {
+            display: none;
+        }
+
+        .view-less-btn {
+            padding: 1rem 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff6600;
+            color: #ffaa33;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+            display: none;
+        }
+
+        .view-less-btn:hover {
+            background: rgba(255, 102, 0, 0.2);
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.6);
+            color: #ffdd88;
+            transform: translateY(-2px);
+        }
+
+        .view-less-btn.visible {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid { grid-template-columns: 1fr; }
+        }
         @media (max-width: 500px) {
             .nav-inner { height: auto; padding: 12px 0; flex-direction: column; gap: 10px; }
             #hero { margin-top: 100px; }
             .nav-links { gap: 4px; }
             .nav-link { padding: 6px 10px; font-size: 0.6rem; }
+            .stats-box { padding: 30px 20px; }
         }
     </style>
-<base target="_blank">
+    <base target="_blank">
 </head>
 <body>
-
-    <!-- ===== BACKGROUND VIDEO: fireworks in the dark with sparkles (Pexels, free to use) ===== -->
-    <video autoplay muted loop playsinline id="bg-video">
-        <source src="https://videos.pexels.com/video-files/18686281/18686281-uhd_2560_1440_30fps.mp4" type="video/mp4">
-        <!-- Fallback: browser will show canvas fireworks below if video fails to load -->
-    </video>
-    <div id="bg-video-overlay"></div>
-
     <!-- ===== NAV BANNER ===== -->
     <nav class="nav-banner">
         <div class="nav-inner">
-            <a href="okok.html" class="nav-logo">Salim's Rahman's Super Sparks</a>
+            <a href="index.html" class="nav-logo" target="_blank" rel="noopener">Salim's Rahman's Super Sparks</a>
             <div class="nav-links">
-                <a href="okok.html" class="nav-link active">Home</a>
-                <a href="aromory1.html" class="nav-link">Armory</a>
-                <a href="movie.html" class="nav-link">Movies</a>
-                <a href="fireworks.html" class="nav-link">Fireworks</a>
-                <a href="SFX.html" class="nav-link">SFX</a>
-                <a href="contactus.html" class="nav-link">Contact Us</a>
+                <a href="okok.html" class="nav-link" target="_blank" rel="noopener">Home</a>
+                <a href="aromory1.html" class="nav-link" target="_blank" rel="noopener">Armory</a>
+                <a href="movie.html" class="nav-link" target="_blank" rel="noopener">Movies</a>
+                <a href="fireworks.html" class="nav-link active" target="_blank" rel="noopener">Fireworks</a>
+                <a href="SFX.html" class="nav-link" target="_blank" rel="noopener">SFX</a>
+                <a href="contactus.html" class="nav-link" target="_blank" rel="noopener">Contact Us</a>
             </div>
         </div>
     </nav>
 
+    <!-- ===== HERO SECTION ===== -->
     <section id="hero">
         <canvas id="fireworks-canvas"></canvas>
         <div class="hero-overlay"></div>
-        
+
         <div class="hero-content">
-            <p class="pre-title">Salim's Rahman's</p>
-            <h1 class="main-title">SUPER SPARKS</h1>
-            <p class="sub-title">Special Effects (M) Sdn Bhd</p>
+            <h1 class="main-title">FIREWORKS</h1>
+            <p class="sub-title">Spectacular Displays</p>
             <div class="divider"></div>
-            <p class="tagline">Pyrotechnics • Firearms • Movie SFX • Explosives</p>
-            <button class="cta-button" onclick="ignite(event)">Ignite The Show</button>
+            <button class="cta-button" onclick="scrollToGallery(event)">View</button>
         </div>
 
         <div class="scroll-indicator">
@@ -750,188 +715,116 @@
         </div>
     </section>
 
-    <div id="content-wrapper">
-
-        <div class="section-divider"></div>
-
-        <div class="section-light">
-            <section id="intro" class="section">
-                <div class="section-header">
-                    <span class="section-number">01</span>
-                    <h2 class="section-title">Introduction</h2>
-                </div>
-                <div class="intro-grid">
-                    <div class="intro-card">
-                        <h3>Company Overview</h3>
-                        <p>Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd is a Private company incorporated on 8 November 2000, registered at the Registrar of Companies, Malaysia. With an Authorized Share Capital of RM 1,000,000.00 and Paid Up Capital of RM 1,000,000.00, we have rapidly grown into a well-respected Special Effects and Specialized Service Event Company.</p>
-                    </div>
-                    <div class="intro-card">
-                        <h3>Our Experience</h3>
-                        <p>The experience of our in-house team covers award-winning feature films, commercials, music videos, short films, live events, and new media content. Servicing both our international and local client base, we are all about building long-term relationships. Our production pipeline is constantly being reshaped and tailored to support productions.</p>
-                    </div>
-                    <div class="intro-card">
-                        <h3>Global Reach</h3>
-                        <p>Salim's Rahman's Super Sparks Special Effects continues to be a strong service provider of movie Special Effects, Explosives, Pyrotechniques, Aerial Display Fireworks, Musical Fireworks, and Specialised Movie Fire Arms services to companies and studios around the world. We have been involved in projects across South Korea, Australia, South Africa, Hong Kong, Thailand, and major events shown everywhere from television to cinema.</p>
-                    </div>
-                </div>
-            </section>
+    <!-- ===== VIDEO GALLERY ===== -->
+    <section id="gallery-section">
+        <div class="gallery-header">
+            <h2 class="gallery-title">Fireworks Showreel</h2>
+            <p class="gallery-subtitle">Click to Watch</p>
         </div>
 
-        <div class="section-divider"></div>
-
-        <div class="section-mid">
-            <section id="writeup" class="section">
-                <div class="section-header">
-                    <span class="section-number">02</span>
-                    <h2 class="section-title">Company Write Up</h2>
+        <div class="video-grid" id="videoGrid">
+            <!-- Video 1 -->
+            <div class="video-card" onclick="openModal('1zdw3gUggY42ydDXdIOkxppO2XYxKuO2R')">
+                <img src="https://drive.google.com/thumbnail?id=1zdw3gUggY42ydDXdIOkxppO2XYxKuO2R&sz=w1000" alt="Ipoh Tourist" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Tourism</h3>
+                    <p class="video-desc">Fireworks display for Tourism</p>
                 </div>
-                <div class="writeup-content">
-                    <p>We are a premier licensed company specializing in firearms supplies for government bodies, movie production companies, special effects, and equipment supplies for movies, pyrotechnics, fireworks displays for national events, and both government and private event management.</p>
-                    
-                    <p>With over a decade of experience, Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd serves as a consultant and execution works for both local and international companies for movies, and event management. With our well-managed professional and highly trained personnel, safety, discipline, effectiveness, and time are absolute must-have aspects that we give precedence to.</p>
-                    
-                    <div class="highlight-box">
-                        <p>"We provide top quality products and services for our clients at competitive prices. We are your one-stop centre specialised for anything and everything pertinent to our business portfolio."</p>
-                    </div>
-                    
-                    <p>We have a salutary relationship with several governmental and well-established companies, whereby our years of experience in this sector make it easier for us to get business opportunities. The storage of more than 9,000 movie firearms in Hong Kong includes sniper rifles, shotguns, auto and semi pistols, revolvers, machine guns, and even 15th-century guns, World War II guns, and many more that have played a role in films or television.</p>
-                    
-                    <p>We also supply guns and weapons props for movie usage, with associates for firearms suppliers in the United Kingdom, South Africa, Australia, and Thailand. All firearms for movie usage are blank firing, deactivated, or replicas, brought into the country under strict binding Firearms Law. Salim's Rahman's Super Sparks Special Effects (M) Sdn Bhd is a licensed firearms company under the Firearms Act.</p>
-                    
-                    <p>All deactivated weapons that have been converted can no longer discharge any shot, bullet, or other missile — they are blank firing guns intended for movie usage, handled by our professional Armourer and well-trained personnel. We offer a range of blank firing weapons as well as deactivated and replica firearms, creating a multitude of interiors as well as exterior sets to meet the needs of most films.</p>
+            </div>
+            <!-- Video 2 -->
+            <div class="video-card" onclick="openModal('1zNuoCbACuPMYejfUEaVUQuYcj1moOysM')">
+                <img src="https://drive.google.com/thumbnail?id=1zNuoCbACuPMYejfUEaVUQuYcj1moOysM&sz=w1000" alt="Bangkok Icon City" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Bangkok</h3>
+                    <p class="video-desc">Spectacular show at Bangkok</p>
                 </div>
-            </section>
+            </div>
+            <!-- Video 3 -->
+            <div class="video-card" onclick="openModal('1zI4_-_RBh8xJFWI28IKyCnHFed7P8SQ9')">
+                <img src="https://drive.google.com/thumbnail?id=1zI4_-_RBh8xJFWI28IKyCnHFed7P8SQ9&sz=w1000" alt="India" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">India</h3>
+                    <p class="video-desc">Fireworks celebration in India</p>
+                </div>
+            </div>
+            <!-- Video 4 -->
+            <div class="video-card hidden" onclick="openModal('1v23Xuz3NgAzdVHuRFNcfiBpNvLl_ZD6d')">
+                <img src="https://drive.google.com/thumbnail?id=1v23Xuz3NgAzdVHuRFNcfiBpNvLl_ZD6d&sz=w1000" alt="Ipoh Merdeka" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Merdeka</h3>
+                    <p class="video-desc">Merdeka celebration fireworks in Ipoh</p>
+                </div>
+            </div>
+            <!-- Video 5 -->
+            <div class="video-card hidden" onclick="openModal('1ziZzGxQTc229ie9tL7Yapg9t6Co0ri4Z')">
+                <img src="https://drive.google.com/thumbnail?id=1ziZzGxQTc229ie9tL7Yapg9t6Co0ri4Z&sz=w1000" alt="Langkawi" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Langkawi</h3>
+                    <p class="video-desc">Langkawi island fireworks display</p>
+                </div>
+            </div>
+            <!-- Video 6 -->
+            <div class="video-card hidden" onclick="openModal('1zc6ll2EeshRkJqHKzD6Lo4Hl8E9SgKUy')">
+                <img src="https://drive.google.com/thumbnail?id=1zc6ll2EeshRkJqHKzD6Lo4Hl8E9SgKUy&sz=w1000" alt="Singapore" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Singapore</h3>
+                    <p class="video-desc">Singapore skyline fireworks</p>
+                </div>
+            </div>
+            <!-- Video 7 -->
+            <div class="video-card hidden" onclick="openModal('1z_TLDK-FwGMkoUpwNbBoNBkGp6Wl2CVH')">
+                <img src="https://drive.google.com/thumbnail?id=1z_TLDK-FwGMkoUpwNbBoNBkGp6Wl2CVH&sz=w1000" alt="Terengganu" class="video-thumbnail">
+                <div class="video-overlay"><div class="play-button"></div></div>
+                <div class="video-info">
+                    <h3 class="video-title">Terengganu</h3>
+                    <p class="video-desc">Terengganu East Coast fireworks celebration</p>
+                </div>
+            </div>
         </div>
 
-        <div class="section-divider"></div>
-
-        <div class="section-light">
-            <section id="services" class="section">
-                <div class="section-header">
-                    <span class="section-number">03</span>
-                    <h2 class="section-title">Main Services</h2>
-                </div>
-                <div class="services-grid">
-                    <div class="service-item">
-                        <div class="service-icon">🔥</div>
-                        <span class="service-text">Fire Arms / Armoury</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">💥</div>
-                        <span class="service-text">Pyrotechniques & Effects</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">🎬</div>
-                        <span class="service-text">Real Explosives for Movies</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">🎭</div>
-                        <span class="service-text">Movie Special Effects</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">❄️</div>
-                        <span class="service-text">Theatrical Stage Smoke, Snow, Ice Effects</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">🎆</div>
-                        <span class="service-text">Execution of Musical Fireworks</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">🤸</div>
-                        <span class="service-text">Stunt Masters</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">⭐</div>
-                        <span class="service-text">Talents All Levels</span>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon">📋</div>
-                        <span class="service-text">Armoury / Special Effects / Pyro Permits</span>
-                    </div>
-                </div>
-            </section>
+        <div class="view-more-container">
+            <button class="view-more-btn" id="viewMoreBtn" onclick="showMoreVideos()">View More</button>
+            <button class="view-less-btn" id="viewLessBtn" onclick="showLessVideos()">View Less</button>
         </div>
+    </section>
 
-        <div class="section-divider"></div>
-
-        <div class="section-mid">
-            <section id="other-services" class="section">
-                <div class="section-header">
-                    <span class="section-number">04</span>
-                    <h2 class="section-title">Other Services</h2>
-                </div>
-                <div class="other-services-list">
-                    <div class="other-service-item">Job Site Safety (Fire, Explosives and Firearms)</div>
-                    <div class="other-service-item">Regulatory Compliance and Enforcements</div>
-                    <div class="other-service-item">Safety Consultancy / Observation / Planning & Coordination</div>
-                    <div class="other-service-item">Excellent Coordination Services with Relevant Authorities (Local Authority, BOMBA, POLICE PDRM, ERT)</div>
-                    <div class="other-service-item">Production support services</div>
-                    <div class="other-service-item">Executive Protection Agent / Bodyguards (Armed / Unarmed)</div>
-                    <div class="other-service-item">Firearms (Movie) Training for Actor, Actress & Talents</div>
-                    <div class="other-service-item">Armed / Unarmed Special Security Operations Services</div>
-                </div>
-            </section>
+    <!-- ===== STATS BOX (NOW AT THE BOTTOM) ===== -->
+    <section id="stats-section">
+        <div class="stats-box">
+            <div class="stats-number">360+</div>
+            <div class="stats-label">Fireworks Shows Delivered</div>
+            <div class="stats-sub">Worldwide</div>
         </div>
+    </section>
 
-        <div class="section-divider"></div>
-
-        <div class="section-light">
-            <section id="company-details" class="section">
-                <div class="section-header">
-                    <span class="section-number">05</span>
-                    <h2 class="section-title">Company Details</h2>
-                </div>
-                <div class="details-grid">
-                    <div class="detail-card">
-                        <h4>Managing Director</h4>
-                        <p><span class="label">MOHD SALIM ABDUL RAHMAN</span><br>
-                        Contact: 019-3807503<br>
-                        Email: Available upon request</p>
-                    </div>
-                    <div class="detail-card">
-                        <h4>Company Secretary</h4>
-                        <p><span class="label">Ybhg Dato AHMAD RUSTAM BIN ALI @ JAAFAR</span><br>
-                        (LS 0008277)<br>
-                        MALTICS CORPORATE CONSULTANCY SDN BHD<br>
-                        No. 5-4-2, Jalan 2/50, Diamond Square<br>
-                        Off Jalan Gombak, 53000 Kuala Lumpur</p>
-                    </div>
-                    <div class="detail-card">
-                        <h4>Registration</h4>
-                        <p><span class="label">Company Registration No:</span> 618831-W<br>
-                        <span class="label">Ministry of Finance Reg No:</span> 357-02017071</p>
-                    </div>
-                    <div class="detail-card">
-                        <h4>Registered Address</h4>
-                        <p>
-                        NO.5-4-2, JALAN 2/50, DIAMOND SQUARE<br>
-                        OFF JALAN GOMBAK, KUALA LUMPUR, W.P. KUALA LUMPUR<br>
-                        Postcode: 53000</p>
-                    </div>
-                    <div class="detail-card">
-                        <h4>Business Address</h4>
-                        <p>NO.5-4-2, JALAN 2/50, DIAMOND SQUARE<br>
-                        OFF JALAN GOMBAK, KUALA LUMPUR, W.P. KUALA LUMPUR<br>
-                        Postcode: 53000</p>
-                    </div>
-                    <div class="detail-card">
-                        <h4>Notable Clients</h4>
-                        <p>Britney Spears, Bruno Mars, Justin Bieber, Adam Lambert, Guns & Roses, Bollywood Movies & Concerts, Coca Cola, Marco Polo, and various local & international companies.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-    </div>
-
+    <!-- ===== FOOTER ===== -->
     <footer>
-        <p>© 2026 SALIM'S RAHMAN'S SUPER SPARKS SPECIAL EFFECTS (M) SDN BHD. ALL RIGHTS RESERVED.</p>
+        <p>© 2026 SUPER SPARKS SPECIAL EFFECTS (M) SDN BHD. ALL RIGHTS RESERVED.</p>
     </footer>
 
+    <!-- ===== POPUP MODAL (native video player) ===== -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-backdrop" onclick="closeModal(event)"></div>
+        <div class="modal-wrapper" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close video">×</button>
+            <div class="modal-content">
+                <video id="modal-video" class="modal-video" controls playsinline webkit-playsinline x5-playsinline preload="metadata"></video>
+            </div>
+            <a href="#" class="modal-fallback-link" id="watch-on-drive" target="_blank" rel="noopener">Video not loading? Open in Google Drive →</a>
+            <p class="modal-error-note" id="video-error">Stream failed — use the link above to watch on Google Drive.</p>
+        </div>
+    </div>
+
     <script>
+        // ===== FIREWORKS CANVAS =====
         const canvas = document.getElementById('fireworks-canvas');
         const ctx = canvas.getContext('2d');
-        
         let width, height;
         let fireworks = [];
         let particles = [];
@@ -945,19 +838,12 @@
         window.addEventListener('resize', resize);
 
         for (let i = 0; i < 150; i++) {
-            stars.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                size: Math.random() * 2,
-                brightness: Math.random()
-            });
+            stars.push({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2, brightness: Math.random() });
         }
 
         class Firework {
             constructor(x, y, targetY) {
-                this.x = x;
-                this.y = y;
-                this.targetY = targetY;
+                this.x = x; this.y = y; this.targetY = targetY;
                 this.speed = 8 + Math.random() * 6;
                 this.angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.2;
                 this.vx = Math.cos(this.angle) * this.speed;
@@ -967,30 +853,21 @@
                 this.hue = Math.random() * 60 + 10;
                 this.brightness = Math.random() * 30 + 50;
             }
-
             update() {
                 if (!this.exploded) {
-                    this.trail.push({x: this.x, y: this.y, alpha: 1});
+                    this.trail.push({ x: this.x, y: this.y, alpha: 1 });
                     if (this.trail.length > 15) this.trail.shift();
-                    
                     this.x += this.vx;
                     this.y += this.vy;
                     this.vy += 0.15;
-
-                    if (this.vy >= 0 || this.y <= this.targetY) {
-                        this.explode();
-                    }
+                    if (this.vy >= 0 || this.y <= this.targetY) this.explode();
                 }
             }
-
             explode() {
                 this.exploded = true;
                 const particleCount = 80 + Math.random() * 60;
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle(this.x, this.y, this.hue));
-                }
+                for (let i = 0; i < particleCount; i++) particles.push(new Particle(this.x, this.y, this.hue));
             }
-
             draw() {
                 if (!this.exploded) {
                     ctx.beginPath();
@@ -1003,7 +880,6 @@
                     ctx.strokeStyle = `hsla(${this.hue}, 100%, ${this.brightness}%, 0.8)`;
                     ctx.lineWidth = 3;
                     ctx.stroke();
-
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
                     ctx.fillStyle = `hsla(${this.hue}, 100%, 80%, 1)`;
@@ -1014,8 +890,7 @@
 
         class Particle {
             constructor(x, y, hue) {
-                this.x = x;
-                this.y = y;
+                this.x = x; this.y = y;
                 const angle = Math.random() * Math.PI * 2;
                 const speed = Math.random() * 8 + 2;
                 this.vx = Math.cos(angle) * speed;
@@ -1027,36 +902,28 @@
                 this.gravity = 0.08;
                 this.drag = 0.98;
             }
-
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
+                this.x += this.vx; this.y += this.vy;
                 this.vy += this.gravity;
-                this.vx *= this.drag;
-                this.vy *= this.drag;
+                this.vx *= this.drag; this.vy *= this.drag;
                 this.life -= this.decay;
                 this.size *= 0.98;
             }
-
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.life;
-                
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
                 ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, 0.2)`;
                 ctx.fill();
-
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = `hsla(${this.hue}, 100%, 70%, ${this.life})`;
                 ctx.fill();
-
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
                 ctx.fillStyle = `hsla(${this.hue + 20}, 100%, 90%, ${this.life})`;
                 ctx.fill();
-
                 ctx.restore();
             }
         }
@@ -1067,29 +934,35 @@
             fireworks.push(new Firework(x, height, targetY));
         }
 
-        setInterval(() => {
-            if (fireworks.length < 5) {
-                createFirework();
-            }
-        }, 800);
+        // ===== SHOW ENGINE: pausable (saves battery while video plays) =====
+        let rafId = null;
+        let spawnTimer = null;
+        let heroVisible = true;
+
+        function startShow() {
+            if (rafId !== null) return;
+            spawnTimer = setInterval(() => { if (fireworks.length < 5) createFirework(); }, 800);
+            rafId = requestAnimationFrame(animate);
+        }
+
+        function stopShow() {
+            if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+            if (spawnTimer !== null) { clearInterval(spawnTimer); spawnTimer = null; }
+        }
 
         canvas.addEventListener('click', (e) => {
             const fw = new Firework(e.clientX, height, e.clientY);
-            fw.speed = 15;
-            fw.vy = -15;
-            fw.vx = 0;
+            fw.speed = 15; fw.vy = -15; fw.vx = 0;
             fireworks.push(fw);
         });
 
         canvas.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.7) {
-                particles.push(new Particle(e.clientX, e.clientY, Math.random() * 40 + 10));
-            }
+            if (Math.random() > 0.7) particles.push(new Particle(e.clientX, e.clientY, Math.random() * 40 + 10));
         });
 
         function animate() {
-            ctx.clearRect(0, 0, width, height);
-
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+            ctx.fillRect(0, 0, width, height);
             stars.forEach(star => {
                 star.brightness += (Math.random() - 0.5) * 0.1;
                 star.brightness = Math.max(0.2, Math.min(1, star.brightness));
@@ -1098,38 +971,50 @@
                 ctx.fillStyle = `rgba(255, 200, 150, ${star.brightness * 0.5})`;
                 ctx.fill();
             });
+            fireworks = fireworks.filter(fw => { fw.update(); fw.draw(); return !fw.exploded || fw.trail.length > 0; });
+            particles = particles.filter(p => { p.update(); p.draw(); return p.life > 0; });
+            rafId = requestAnimationFrame(animate);
+        }
+        startShow();
+        setTimeout(() => { for (let i = 0; i < 3; i++) setTimeout(createFirework, i * 300); }, 500);
 
-            fireworks = fireworks.filter(fw => {
-                fw.update();
-                fw.draw();
-                return !fw.exploded || fw.trail.length > 0;
-            });
-
-            particles = particles.filter(p => {
-                p.update();
-                p.draw();
-                return p.life > 0;
-            });
-
-            requestAnimationFrame(animate);
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                heroVisible = entries[0].isIntersecting;
+                if (heroVisible && !document.hidden && !document.body.classList.contains('modal-open')) startShow();
+                else stopShow();
+            }, { threshold: 0 }).observe(document.getElementById('hero'));
         }
 
-        animate();
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stopShow();
+            else if (heroVisible && !document.body.classList.contains('modal-open')) startShow();
+        });
 
-        setTimeout(() => {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(createFirework, i * 300);
-            }
-        }, 500);
+        // ===== VIEW MORE / LESS =====
+        function showMoreVideos() {
+            const hiddenCards = document.querySelectorAll('.video-card.hidden');
+            hiddenCards.forEach((card, index) => setTimeout(() => card.classList.add('show'), index * 100));
+            document.getElementById('viewMoreBtn').classList.add('hidden');
+            document.getElementById('viewLessBtn').classList.add('visible');
+            setTimeout(() => {
+                document.getElementById('viewMoreBtn').closest('.view-more-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, hiddenCards.length * 100 + 150);
+        }
+        function showLessVideos() {
+            document.querySelectorAll('.video-card.hidden').forEach(card => card.classList.remove('show'));
+            document.getElementById('viewMoreBtn').classList.remove('hidden');
+            document.getElementById('viewLessBtn').classList.remove('visible');
+            document.getElementById('gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
-        function ignite(e) {
+        // ===== SCROLL TO GALLERY =====
+        function scrollToGallery(e) {
             e.preventDefault();
-            
             const btn = e.target;
             const rect = btn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-
             for (let i = 0; i < 30; i++) {
                 const ember = document.createElement('div');
                 ember.className = 'ember';
@@ -1140,30 +1025,84 @@
                 document.body.appendChild(ember);
                 setTimeout(() => ember.remove(), 3000);
             }
-
             const fw = new Firework(centerX, height, centerY - 200);
-            fw.speed = 20;
-            fw.vy = -20;
-            fw.vx = 0;
+            fw.speed = 20; fw.vy = -20; fw.vx = 0;
             fireworks.push(fw);
-
-            document.getElementById('intro').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            document.getElementById('gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // ===== GLASS BOX SCROLL REVEAL =====
-        const glassPanels = document.querySelectorAll('.section-light, .section-mid');
-        const glassObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+        // ===== NATIVE VIDEO PLAYER (replaces the Drive iframe) =====
+        // Streams the file directly from Google Drive's download endpoint.
+        // Primary + fallback URL; the Drive page link stays visible as last resort.
+        const modalVideo = document.getElementById('modal-video');
+        const videoError = document.getElementById('video-error');
+        let currentFileId = null;
+        let sourceAttempt = 0;
 
-        glassPanels.forEach(panel => glassObserver.observe(panel));
+        function driveStreamUrls(id) {
+            return [
+                `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`,
+                `https://drive.google.com/uc?export=download&confirm=t&id=${id}`
+            ];
+        }
+
+        modalVideo.addEventListener('error', () => {
+            sourceAttempt++;
+            if (currentFileId && sourceAttempt < 2) {
+                modalVideo.src = driveStreamUrls(currentFileId)[sourceAttempt];
+                modalVideo.load();
+            } else {
+                videoError.style.display = 'block';
+            }
+        });
+
+        function openModal(fileId) {
+            currentFileId = fileId;
+            sourceAttempt = 0;
+            videoError.style.display = 'none';
+
+            const modal = document.getElementById('modal');
+            const fallbackLink = document.getElementById('watch-on-drive');
+
+            fallbackLink.href = `https://drive.google.com/file/d/${fileId}/view`;
+            // thumbnail as poster = instant picture, never a black box
+            modalVideo.poster = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+            modalVideo.src = driveStreamUrls(fileId)[0];
+            modalVideo.load();
+
+            // pause the fireworks engine while watching
+            stopShow();
+            document.body.classList.add('modal-open');
+
+            modal.classList.add('active');
+            document.documentElement.style.overflow = 'hidden';
+
+            // the card tap counts as a user gesture, so playback can start
+            const playPromise = modalVideo.play();
+            if (playPromise && playPromise.catch) playPromise.catch(() => {});
+        }
+
+        function closeModal(e) {
+            if (e && e.target) {
+                const t = e.target;
+                const allowed = (t.id === 'modal') || (t.classList && t.classList.contains('modal-backdrop'));
+                if (!allowed) return;
+            }
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.removeAttribute('src');
+            modalVideo.removeAttribute('poster');
+            modalVideo.load();
+            currentFileId = null;
+            document.body.classList.remove('modal-open');
+            document.documentElement.style.overflow = '';
+            if (heroVisible && !document.hidden) startShow();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
     </script>
 </body>
 </html>
